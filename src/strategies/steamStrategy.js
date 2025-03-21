@@ -1,30 +1,30 @@
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const SteamStrategy = require("passport-steam").Strategy;
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
 passport.use(
-  new GoogleStrategy(
+  new SteamStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.BASE_URL}/auth/google/callback`,
+      returnURL: `${process.env.BASE_URL}/auth/steam/callback`,
+      realm: process.env.BASE_URL,
+      apiKey: process.env.STEAM_API_KEY,
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (identifier, profile, done) => {
       try {
-        // On vérifie si l'utilisateur est déjà dans la base de données
+        const steamId = profile.id;
+
         let user = await prisma.user.findUnique({
-          where: { googleId: profile.id },
+          where: { steamId },
         });
 
-        // Sinon on le crée
         if (!user) {
           user = await prisma.user.create({
             data: {
-              googleId: profile.id,
+              steamId,
               username: profile.displayName,
-              email: profile.emails?.[0]?.value || null,
+              avatar: profile.photos?.[2]?.value || null,
             },
           });
         }
@@ -43,9 +43,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await prisma.user.findUnique({
-      where: { id },
-    });
+    const user = await prisma.user.findUnique({ where: { id } });
     done(null, user);
   } catch (error) {
     done(error, null);

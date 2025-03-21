@@ -1,30 +1,30 @@
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GitHubStrategy = require("passport-github2").Strategy;
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
 passport.use(
-  new GoogleStrategy(
+  new GitHubStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.BASE_URL}/auth/google/callback`,
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: `${process.env.BASE_URL}/auth/github/callback`, // URL de redirection après authentification
     },
+
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // On vérifie si l'utilisateur est déjà dans la base de données
-        let user = await prisma.user.findUnique({
-          where: { googleId: profile.id },
+        // Créer ou trouver l'utilisateur dans la BDD
+        const user = await prisma.user.findUnique({
+          where: { githubId: profile.id },
         });
 
-        // Sinon on le crée
         if (!user) {
           user = await prisma.user.create({
             data: {
-              googleId: profile.id,
-              username: profile.displayName,
-              email: profile.emails?.[0]?.value || null,
+              githubId: profile.id,
+              username: profile.username,
+              email: profile.email?.[0].value || null,
             },
           });
         }
@@ -46,6 +46,7 @@ passport.deserializeUser(async (id, done) => {
     const user = await prisma.user.findUnique({
       where: { id },
     });
+
     done(null, user);
   } catch (error) {
     done(error, null);

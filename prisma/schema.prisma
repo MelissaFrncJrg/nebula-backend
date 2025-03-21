@@ -9,8 +9,8 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
+  email     String?   @unique
+  username  String?
   googleId  String?  @unique
   githubId  String?  @unique
   steamId   String?  @unique
@@ -19,6 +19,8 @@ model User {
   updatedAt DateTime @updatedAt
   posts     Post[]
   profile   Profile?
+  totpSecret String?
+  isTotpEnabled Boolean @default(false)
 }
 
 model Post {

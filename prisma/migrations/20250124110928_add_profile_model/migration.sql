@@ -32,6 +32,7 @@ CREATE TABLE "Profile" (
     "avatarUrl" TEXT NOT NULL,
     "socialLinks" JSONB NOT NULL,
     "userId" INTEGER NOT NULL,
+    "isCreator" BOOLEAN,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
