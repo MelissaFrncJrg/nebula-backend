@@ -13,12 +13,10 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // On vérifie si l'utilisateur est déjà dans la base de données
         let user = await prisma.user.findUnique({
           where: { googleId: profile.id },
         });
 
-        // Sinon on le crée
         if (!user) {
           user = await prisma.user.create({
             data: {

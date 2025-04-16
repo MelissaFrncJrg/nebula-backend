@@ -2,19 +2,21 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const dotenv = require("dotenv");
-const authRoutes = require("../src/routes/authRoutes");
+const authRoutes = require("./routes/authRoutes");
+const oauthRoutes = require("./routes/oauthRoutes");
+const twoFactorRoutes = require("./routes/twoFactorRoutes");
 
 // Charger les variables d'environnement
 dotenv.config();
+
+// charger la configuration de passport
+require("./config/passportConfig");
 
 // Initiliaser l'application express
 const app = express();
 
 // Middleware pour parser les JSON
 app.use(express.json());
-
-// Configuration des sessions
-require("dotenv").config();
 
 app.use(
   session({
@@ -28,22 +30,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Stocker les données de l'utilisateur dans la session
-passport.serializeUser((user, done) => {
-  done(null, user.id); // Après authentification d'un user on call cette fonction pour décider quoi sauvegarder dans la session
-});
-
-// détermine comment récupérer les informations utilisateur à partir de la session
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
-
-// Roiutes d'authentification
+// Routes d'authentification
+app.use("/auth", oauthRoutes);
 app.use("/auth", authRoutes);
+app.use("/2fa", twoFactorRoutes);
 
 module.exports = app;

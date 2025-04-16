@@ -1,54 +1,53 @@
 const express = require("express");
 const passport = require("passport");
+const qrcode = require("qrcode");
+const { registerUser } = require("../services/authService");
+const { PrismaClient } = require("@prisma/client");
 
-require("../strategies/googleStrategy");
-require("../strategies/githubStrategy");
-require("../strategies/discordStrategy");
-require("../strategies/steamStrategy");
-
+const prisma = new PrismaClient();
 const router = express.Router();
 
-// Google
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/");
-  }
-);
+router.post("/register", async (req, res) => {
+  const { email, password, username } = req.body;
+  try {
+    const { user, secret } = await registerUser(email, password, username);
+    const qrCodeUrl = await qrcode.toDataURL(secret.otpauth_url);
+    res.status(201).json({
+      message:
+        "Account created successfully. Scan this QR code to active the 2Auth authentication.",
+      qrCodeUrl,
+      userId: user.id,
+    });
+  } catch (err) {
+    if (err.message === "EMAIL_EXISTS") {
+      return res.status(400).json({ message: "Email already exists" });
+    }
 
-// GitHub
-router.get("/auth/github", passport.authenticate("github"));
-router.get(
-  "/auth/github/callback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/");
-  }
-);
+    if (err.message === "USERNAME_EXISTS") {
+      return res.status(400).json({ message: "Username already exists" });
+    }
 
-// Discord
-router.get("/auth/discord", passport.authenticate("discord"));
-router.get(
-  "/auth/discord/callback",
-  passport.authenticate("discord", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/");
+    console.error("Error when trying to create the account", err);
+    res.status(500).json({ message: "Erreur serveur" });
   }
-);
+});
 
-// Steam
-router.get("/auth/steam", passport.authenticate("steam"));
-router.get(
-  "/auth/steam/callback",
-  passport.authenticate("steam", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect("/");
-  }
-);
+router.post("/login", async (req, res, next) => {
+  passport.authenticate("local", async (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.status(401).json({ error: info.message });
+
+    req.login(user, (err) => {
+      if (err) return next(err);
+
+      if (user.isTotpEnabled) {
+        req.session.tempUserId = user.id;
+        return res.status(200).json({ isTotpEnabled: true });
+      }
+
+      return res.status(200).json({ success: true, user });
+    });
+  })(req, res, next);
+});
 
 module.exports = router;

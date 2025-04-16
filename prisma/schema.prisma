@@ -7,20 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  PLAYER
+  CREATOR
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String?   @unique
-  username  String?
-  googleId  String?  @unique
-  githubId  String?  @unique
-  steamId   String?  @unique
-  discordId String?  @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  posts     Post[]
-  profile   Profile?
-  totpSecret String?
-  isTotpEnabled Boolean @default(false)
+  id               Int       @id @default(autoincrement())
+  email            String    @unique
+  password         String?
+  googleId         String?   @unique
+  githubId         String?   @unique
+  steamId          String?   @unique
+  discordId        String?   @unique
+  
+  totpSecret       String?
+  isTotpEnabled    Boolean   @default(false)
+
+  role             Role      @default(PLAYER)
+  profile          Profile?  @relation(fields: [profileId], references: [id])
+  profileId        Int?      @unique
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  posts            Post[]
+}
+
+model Profile {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  avatarUrl     String?
+  bio           String?
+  socialLinks   Json?
+  isAnonymized  Boolean  @default(false)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User?
 }
 
 model Post {
@@ -31,15 +56,4 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   author    User     @relation(fields: [authorId], references: [id])
-}
-
-model Profile {
-  id          Int      @id @default(autoincrement())
-  bio         String
-  avatarUrl   String
-  socialLinks Json
-  userId      Int      @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id])
 }
