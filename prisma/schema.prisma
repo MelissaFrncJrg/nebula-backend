@@ -31,7 +31,9 @@ model User {
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
-  posts            Post[]
+  news            News[]
+
+  Creator         Creator[]
 }
 
 model Profile {
@@ -48,7 +50,37 @@ model Profile {
   user          User?
 }
 
-model Post {
+model Creator {
+  ID_creator Int
+  ID_project Int  @unique
+
+  user    User    @relation(fields: [ID_creator], references: [id])
+  project Project @relation("ProjectCreator", fields: [ID_project], references: [id])
+
+  @@id([ID_creator, ID_project])
+}
+
+enum ProjectStatus {
+  in_progress
+  published
+  canceled
+}
+
+model Project {
+  id          Int              @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  status      ProjectStatus    @default(in_progress)
+
+  creator     Creator?         @relation("ProjectCreator")
+
+  news        News[]
+}
+
+
+model News {
   id        Int      @id @default(autoincrement())
   title     String
   content   String
@@ -56,4 +88,6 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   author    User     @relation(fields: [authorId], references: [id])
+
+  Project Project[]
 }
