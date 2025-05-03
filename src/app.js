@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const authRoutes = require("./routes/authRoutes");
 const oauthRoutes = require("./routes/oauthRoutes");
 const twoFactorRoutes = require("./routes/twoFactorRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -34,5 +35,8 @@ app.use(passport.session());
 app.use("/auth", oauthRoutes);
 app.use("/auth", authRoutes);
 app.use("/2fa", twoFactorRoutes);
+
+// Routes pour le profil utilisateur
+app.use("/profile", profileRoutes);
 
 module.exports = app;
