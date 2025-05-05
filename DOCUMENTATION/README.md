@@ -396,6 +396,59 @@ Update the current user's role from PLAYER to CREATOR.
 - The `switch-to-creator` endpoint changes the user's role in the system, potentially enabling additional features and permissions
 - Proper validation should be implemented on the frontend to match backend requirements (username length, URL formats, etc.)
 
+### Delete User Account
+
+Delete a user account with proper authentication confirmation.
+
+- **URL**: `/delete-account`
+- **Method**: `DELETE`
+- **Auth Required**: Yes
+- **Data Params**: None required
+- **Description**: Anonymizes user data and performs a soft delete of the account
+
+### Request Body
+
+```json
+{
+  "password": "yourPassword123",
+  "totpToken": "123456" // Optional: Required if 2FA is enabled
+}
+```
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "Your personal data has been deleted. Your account is now anonymized"
+}
+```
+
+#### Error Responses
+
+- **Code**: 401 Unauthorized
+
+  - **Content**: `{ "message": "Authentication invalid" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "success": false, "message": "User not found" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "success": false, "message": "Internal server error" }`
+
+## Implementation Notes
+
+This endpoint:
+
+- Requires re-authentication (password or valid TOTP token)
+- Anonymizes the user profile
+- Removes sensitive personal data
+- Preserves relationships between entities
+- Maintains data integrity while respecting privacy
+
 ---
 
 # Project API

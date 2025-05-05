@@ -38,6 +38,9 @@ model User {
   
   followedCreators Follow_creator[] @relation("FollowedCreators")
   followers        Follow_creator[] @relation("CreatorFollowers")
+
+  isDeleted        Boolean   @default(false)
+  deletedAt        DateTime?
 }
 
 model Profile {
