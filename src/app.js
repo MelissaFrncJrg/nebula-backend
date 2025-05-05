@@ -7,6 +7,7 @@ const oauthRoutes = require("./routes/oauthRoutes");
 const twoFactorRoutes = require("./routes/twoFactorRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const projectsRoutes = require("./routes/projectRoutes");
+const followRoutes = require("./routes/followRoutes");
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -42,5 +43,8 @@ app.use("/profile", profileRoutes);
 
 // Routes pour les projets
 app.use("/projects", projectsRoutes);
+
+// Routes pour les follow
+app.use("/follow", followRoutes);
 
 module.exports = app;

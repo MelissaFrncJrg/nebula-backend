@@ -34,6 +34,10 @@ model User {
   news            News[]
 
   Creator         Creator[]
+
+  
+  followedCreators Follow_creator[] @relation("FollowedCreators")
+  followers        Follow_creator[] @relation("CreatorFollowers")
 }
 
 model Profile {
@@ -58,6 +62,18 @@ model Creator {
   project Project @relation("ProjectCreator", fields: [ID_project], references: [id])
 
   @@id([ID_creator, ID_project])
+}
+
+model Follow_creator {
+   @@id([ID_user, ID_creator])
+
+  ID_user                Int
+  ID_creator             Int
+  createdAt              DateTime @default(now())
+  notificationsEnabled   Boolean  @default(false)
+
+  follower               User     @relation("FollowedCreators", fields: [ID_user], references: [id])
+  followedCreator        User     @relation("CreatorFollowers", fields: [ID_creator], references: [id])
 }
 
 enum ProjectStatus {
