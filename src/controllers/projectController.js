@@ -158,3 +158,83 @@ exports.deleteProject = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+exports.followProject = async (req, res) => {
+  const userId = req.user.id;
+  const projectId = parseInt(req.params.id);
+
+  try {
+    const isCreator = await prisma.creator.findFirst({
+      where: {
+        ID_project: projectId,
+        ID_creator: userId,
+      },
+    });
+    if (isCreator) {
+      return res
+        .status(400)
+        .json({ message: "Cannot follow your own project" });
+    }
+
+    const follow = await prisma.follow_project.create({
+      data: {
+        ID_user: userId,
+        ID_project: projectId,
+      },
+    });
+
+    res.status(201).json({ success: true, follow });
+  } catch (err) {
+    if (err.code === "P2002") {
+      return res.status(400).json({ message: "Already following" });
+    }
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.unfollowProject = async (req, res) => {
+  const userId = req.user.id;
+  const projectId = parseInt(req.params.id);
+
+  try {
+    await prisma.follow_project.delete({
+      where: {
+        ID_user_ID_project: {
+          ID_user: userId,
+          ID_project: projectId,
+        },
+      },
+    });
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.updateProjectNotifications = async (req, res) => {
+  const userId = req.user.id;
+  const projectId = parseInt(req.params.id);
+  const { notificationsEnabled } = req.body;
+
+  try {
+    const updated = await prisma.follow_project.update({
+      where: {
+        ID_user_ID_project: {
+          ID_user: userId,
+          ID_project: projectId,
+        },
+      },
+      data: {
+        notificationsEnabled,
+      },
+    });
+
+    res.status(200).json({ success: true, updated });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

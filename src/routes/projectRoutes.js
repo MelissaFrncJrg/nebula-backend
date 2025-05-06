@@ -8,7 +8,24 @@ const {
   getMyProjects,
   getProjectsByProfileId,
   deleteProject,
+  followProject,
+  unfollowProject,
+  updateProjectNotifications,
 } = require("../controllers/projectController");
+const {
+  createUpdateReview,
+  getProjectReviews,
+  deleteReview,
+  likeReview,
+  unlikeReview,
+  getReviewLikesCount,
+} = require("../controllers/projectReviewController");
+
+router.get("/:id/reviews", getProjectReviews);
+
+router.get("/creators/:profileId", getProjectsByProfileId);
+
+router.get("/reviews/:id/likes", getReviewLikesCount);
 
 router.post("/", ensureAuthenticated, ensureRole("CREATOR"), createProject);
 
@@ -23,6 +40,22 @@ router.delete(
   deleteProject
 );
 
-router.get("/creators/:profileId", getProjectsByProfileId);
+router.post("/:id/follow", ensureAuthenticated, followProject);
+
+router.delete("/:id/follow", ensureAuthenticated, unfollowProject);
+
+router.patch(
+  "/:id/notifications",
+  ensureAuthenticated,
+  updateProjectNotifications
+);
+
+router.post("/:id/review", ensureAuthenticated, createUpdateReview);
+
+router.delete("/reviews/:id", ensureAuthenticated, deleteReview);
+
+router.post("/reviews/:id/like", ensureAuthenticated, likeReview);
+
+router.delete("/reviews/:id/like", ensureAuthenticated, unlikeReview);
 
 module.exports = router;

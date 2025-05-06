@@ -41,6 +41,13 @@ model User {
 
   isDeleted        Boolean   @default(false)
   deletedAt        DateTime?
+
+  followedProjects Follow_project[]  @relation("UserFollowProjects")
+
+
+  Review_project Project_review[] @relation("ReviewAuthor")
+
+  Like_review Like_review[]
 }
 
 model Profile {
@@ -96,6 +103,52 @@ model Project {
   creator     Creator?         @relation("ProjectCreator")
 
   news        News[]
+
+  followers Follow_project[] @relation("ProjectFollowers")
+
+  Review_project Project_review[] @relation("ReviewedProject")
+}
+
+model Follow_project {
+  ID_user              Int
+  ID_project           Int
+  createdAt            DateTime @default(now())
+  notificationsEnabled Boolean  @default(false)
+
+
+  user     User     @relation("UserFollowProjects", fields: [ID_user], references: [id])
+  project  Project  @relation("ProjectFollowers", fields: [ID_project], references: [id])
+
+  @@id([ID_user, ID_project])
+}
+
+model Project_review {
+  ID_review           Int        @id @default(autoincrement())
+  ID_author           Int
+  ID_project          Int
+  rating              Int
+  comment             String?
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  likeCount           Int        @default(0)
+
+  author     User                @relation("ReviewAuthor", fields: [ID_author], references: [id])
+  project    Project             @relation("ReviewedProject", fields: [ID_project], references: [id])
+
+  likes      Like_review[]
+
+  @@unique([ID_author, ID_project])
+}
+
+model Like_review {
+  ID_user            Int
+  ID_review          Int
+  createdAt          DateTime @default(now())
+
+  user     User               @relation(fields: [ID_user], references: [id])
+  review   Project_review     @relation(fields: [ID_review], references: [ID_review])
+
+  @@id([ID_user, ID_review])
 }
 
 

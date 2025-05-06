@@ -128,6 +128,8 @@ Authenticate an existing user using local strategy. If 2FA is enabled, the sessi
 - **Error Responses**:
   - `401`: Not authenticated
 
+---
+
 ### Confirm Two-Factor Authentication
 
 - **Route**: `POST /confirm-2fa`
@@ -148,6 +150,8 @@ Authenticate an existing user using local strategy. If 2FA is enabled, the sessi
 - **Error Responses**:
   - `401`: Not authenticated
   - `400`: Invalid token
+
+---
 
 ### Verify Two-Factor Authentication
 
@@ -620,6 +624,281 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Error Responses
 
 - **404 Not Found**: If the creator is not found or not a CREATOR
+- **500 Internal Server Error**
+
+---
+
+### Project Review Routes Documentation
+
+### Get Project Reviews
+
+- **URL**: `/projects/:id/reviews`
+- **Method**: `GET`
+- **Auth Required**: No
+- **URL Params**: `id=[integer]`
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "reviews": [
+    {
+      "ID_review": 1,
+      "rating": 4,
+      "comment": "Great project!",
+      "likeCount": 2,
+      ...
+    }
+  ]
+}
+```
+
+#### Error Responses
+
+- **500 Internal Server Error**
+
+---
+
+### Get Review Like Count
+
+- **URL**: `/projects/reviews/:id/likes`
+- **Method**: `GET`
+- **Auth Required**: No
+- **URL Params**: `id=[integer]` (ID of the review)
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "reviewId": 1,
+  "likeCount": 5
+}
+```
+
+#### Error Responses
+
+- **404 Not Found**: If the review does not exist
+- **500 Internal Server Error**
+
+---
+
+### Create or Update a Review
+
+- **URL**: `/projects/:id/review`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **Body**:
+
+```json
+{
+  "rating": 5,
+  "comment": "Amazing game!"
+}
+```
+
+#### Success Response
+
+- **Code**: 201 Created (if created) or 200 OK (if updated)
+- **Content**:
+
+```json
+{
+  "message": "Review added",
+  "review": {
+    "ID_review": 3,
+    "rating": 5,
+    "comment": "Amazing game!",
+    ...
+  }
+}
+```
+
+#### Error Responses
+
+- **400 Bad Request**: If rating is invalid or missing
+- **403 Forbidden**: If the user is the creator of the project
+- **500 Internal Server Error**
+
+---
+
+### Delete a Review
+
+- **URL**: `/projects/reviews/:id`
+- **Method**: `DELETE`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` (ID of the review)
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "Review deleted"
+}
+```
+
+#### Error Responses
+
+- **403 Forbidden**: If the user is not the author of the review
+- **404 Not Found**: If the review does not exist
+- **500 Internal Server Error**
+
+---
+
+### Like a Review
+
+- **URL**: `/projects/reviews/:id/like`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` (ID of the review)
+
+#### Success Response
+
+- **Code**: 201 Created
+- **Content**:
+
+```json
+{
+  "message": "Review liked",
+  "like": {
+    "ID_user": 2,
+    "ID_review": 5
+  }
+}
+```
+
+#### Error Responses
+
+- **400 Bad Request**: If already liked
+- **404 Not Found**: If the review does not exist
+- **500 Internal Server Error**
+
+---
+
+### Unlike a Review
+
+- **URL**: `/projects/reviews/:id/like`
+- **Method**: `DELETE`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` (ID of the review)
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "Like removed"
+}
+```
+
+#### Error Responses
+
+- **404 Not Found**: If the like does not exist
+- **500 Internal Server Error**
+
+---
+
+### Follow a Project
+
+- **URL**: `/projects/:id/follow`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **Roles**: Any authenticated user
+- **URL Params**: `id=[integer]` — Project ID
+
+#### Success Response
+
+- **Code**: 201 Created
+- **Content**:
+
+```json
+{
+  "success": true,
+  "follow": {
+    "ID_user": 2,
+    "ID_project": 1,
+    "createdAt": "2025-05-06T11:25:27.351Z",
+    "notificationsEnabled": false
+  }
+}
+```
+
+#### Error Responses
+
+- **400 Bad Request**: If the user is already following the project or tries to follow their own project
+- **500 Internal Server Error**
+
+---
+
+### Unfollow a Project
+
+- **URL**: `/projects/:id/follow`
+- **Method**: `DELETE`
+- **Auth Required**: Yes
+- **Roles**: Any authenticated user
+- **URL Params**: `id=[integer]` — Project ID
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "success": true
+}
+```
+
+#### Error Responses
+
+- **500 Internal Server Error**
+
+---
+
+### Update Project Notification Settings
+
+- **URL**: `/projects/:id/notifications`
+- **Method**: `PATCH`
+- **Auth Required**: Yes
+- **Roles**: Any authenticated user
+- **URL Params**: `id=[integer]` — Project ID
+- **Body**:
+
+```json
+{
+  "notificationsEnabled": true
+}
+```
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "success": true,
+  "updated": {
+    "ID_user": 2,
+    "ID_project": 1,
+    "createdAt": "2025-05-05T15:10:49.494Z",
+    "notificationsEnabled": true
+  }
+}
+```
+
+#### Error Responses
+
 - **500 Internal Server Error**
 
 ---
