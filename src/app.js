@@ -17,13 +17,6 @@ dotenv.config();
 // charger la configuration de passport
 require("./config/passportConfig");
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-  })
-);
-
 // Initiliaser l'application express
 const app = express();
 
@@ -35,6 +28,13 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+  })
+);
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
   })
 );
 
