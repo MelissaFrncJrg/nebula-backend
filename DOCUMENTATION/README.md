@@ -1,3 +1,107 @@
+# Nebula backend – Local setup with Docker
+
+This guide explains how to run the **Nebula backend** locally using Docker.  
+No development knowledge is required.
+
+---
+
+## 📦 Prerequisites
+
+- **Git** (to clone the repo)
+- **Docker Desktop** installed and running
+- SSH access to GitHub (or use the HTTPS clone URL below)
+
+```bash
+# SSH
+git clone git@github.com:MelissaFrncJrg/myDigitalProject.git
+
+# or HTTPS
+git clone https://github.com/MelissaFrncJrg/myDigitalProject.git
+```
+
+- Configure environment variables. In your terminal run:
+
+```bash
+cp .env.example .env
+```
+
+Open .env in a text editor and update any values by asking Melissa for the correct settings.
+
+## Start the Backend
+
+Open a terminal
+
+- Windows: open PowerShell
+- macOS/Linux: open your usual terminal
+
+Navigate to the backend folder:
+
+```bash
+cd myDigitalProject/BACKEND
+```
+
+### Launch with Docker
+
+Simply run
+
+```bash
+docker compose up --build
+```
+
+This will:
+
+- Create a PostgreSQL database
+- Apply all database migrations
+- Start the Node.js backend
+
+## Once it's ready, you should see something like:
+
+```bash
+Server running on 4455
+```
+
+### How to check tt works
+
+Visit `http://localhost:4455` in your browser.
+You’ll see “Cannot GET /” – that’s normal.
+
+#### Browse the database (Optional)
+
+Open Prisma Studio:
+
+- In browser: http://localhost:5555
+- Or run :
+
+```bash
+npx prisma studio
+```
+
+You'll be able to see tables and test data if they exist.
+
+##### Stop and cleanup
+
+In your terminal, press `Ctrl + C` to stop the server.
+To fully shut down and remove containers:
+
+```bash
+docker compose down -v
+```
+
+###### Common Issues
+
+- Port 4455 in use:
+
+  - Stop any local npm start run (Ctrl +C), then retry Docker.
+
+- Port 5432 conflict:
+
+  - If another PostgreSQL is running, Docker will map to 5433 automatically. Just ignore any “port already in use” warning.
+
+- Docker not starting:
+  - Ensure Docker Desktop is running and healthy—look for the whale icon in your system tray.
+
+If you're stuck, ping Melissa on Discord or Teams ! This guide is here to help you launch everything without digging into the code.
+
 # Auth API
 
 This documentation covers the **Auth API** endpoints responsible for user registration and login. All routes are prefixed with:
