@@ -8,6 +8,7 @@ const twoFactorRoutes = require("./routes/twoFactorRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const projectsRoutes = require("./routes/projectRoutes");
 const followRoutes = require("./routes/followRoutes");
+const newsRoutes = require("./routes/newsRoutes");
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -46,5 +47,8 @@ app.use("/projects", projectsRoutes);
 
 // Routes pour les follow
 app.use("/follow", followRoutes);
+
+// Routes pour les news
+app.use("/news", newsRoutes);
 
 module.exports = app;

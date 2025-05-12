@@ -44,10 +44,12 @@ model User {
 
   followedProjects Follow_project[]  @relation("UserFollowProjects")
 
-
   Review_project Project_review[] @relation("ReviewAuthor")
 
-  Like_review Like_review[]
+  Reviews_likes Like_review[]
+  News_comment Comment_news[]
+  News_likes Like_news[]
+  Comments_likes Like_comment[]
 }
 
 model Profile {
@@ -153,13 +155,63 @@ model Like_review {
 
 
 model News {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  authorId  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id])
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  Project Project[]
+  authorId    Int
+  ID_project  Int
+
+  author      User     @relation(fields: [authorId], references: [id])
+  project     Project  @relation(fields: [ID_project], references: [id])
+
+  likesCount  Int     @default(0)
+  likes       Like_news[]
+
+
+  comments Comment_news[] @relation("NewsComments")
+}
+
+model Comment_news {
+  id           Int             @id @default(autoincrement())
+  ID_news      Int
+  ID_user      Int
+  ID_parent    Int?
+  content      String
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  news         News            @relation("NewsComments", fields: [ID_news], references: [id])
+  user         User            @relation(fields: [ID_user], references: [id])
+
+  parent       Comment_news?   @relation("CommentReplies", fields: [ID_parent], references: [id])
+  replies      Comment_news[]  @relation("CommentReplies")
+
+  likes Like_comment[]
+}
+
+model Like_news {
+  ID_user      Int
+  ID_news      Int
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [ID_user], references: [id])
+  news         News     @relation(fields: [ID_news], references: [id])
+
+  @@id([ID_user, ID_news])
+
+}
+
+model Like_comment {
+  ID_user      Int
+  ID_comment   Int
+  createdAt    DateTime      @default(now())
+
+  user         User          @relation(fields: [ID_user], references: [id])
+  comment      Comment_news  @relation(fields: [ID_comment], references: [id])
+
+  @@id([ID_user, ID_comment])
 }

@@ -921,8 +921,6 @@ All endpoints require a valid authentication token. Include the token in your re
 Authorization: Bearer YOUR_TOKEN_HERE
 ```
 
-## Endpoints
-
 ### Follow a creator
 
 Create a follow relationship between the current user and a creator.
@@ -976,7 +974,6 @@ Remove a follow relationship between the current user and a creator.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
 
 ```json
 {
@@ -1172,3 +1169,624 @@ Check if the current user is following a specific creator.
 
 - **Code**: 500 Internal Server Error
   - **Content**: `{ "success": false, "message": "Internal server error" }`
+
+# News API
+
+This documentation covers the **News API** endpoints that manage project news and user interactions with news items. Most routes require authentication, except for the public `getProjectNews` route.
+
+## Base URL
+
+```
+/news
+```
+
+## Authentication
+
+All endpoints marked "Auth Required" require valid authentication. Include the token in your request headers:
+
+```
+Authorization: Bearer YOUR_TOKEN_HERE
+```
+
+## Endpoints
+
+### Get Project News
+
+Retrieves all news associated with a specific project.
+
+- **URL**: `/projects/:id`
+- **Method**: `GET`
+- **Auth Required**: No
+- **URL Params**: `id=[integer]` Project ID
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "news": [
+    {
+      "id": 1,
+      "title": "Major Update",
+      "content": "We've added new features!",
+      "image": "https://example.com/image.jpg",
+      "createdAt": "2025-05-06T14:13:26.419Z",
+      "updatedAt": "2025-05-12T09:02:34.284Z",
+      "authorId": 4,
+      "ID_project": 3,
+      "author": {
+        "profile": {
+          "id": 4,
+          "username": "creator1",
+          "avatarUrl": "https://example.com/avatar.png"
+        }
+      },
+      "likes": [],
+      "Comment_news": [
+        {
+          "id": 1,
+          "content": "Great news!",
+          "user": {
+            "profile": {
+              "id": 2,
+              "username": "user1"
+            }
+          },
+          "Like_comment": [],
+          "replies": []
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Error Responses
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Internal server error" }`
+
+---
+
+### Create News
+
+Creates a news item to update the community about a project. Protected by `ensureAuthenticated`.
+
+- **URL**: `/projects/:id`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` Project ID
+- **Request Body**:
+
+```json
+{
+  "title": "New Feature",
+  "content": "We've added a new feature!",
+  "image": "https://example.com/image.jpg" // Optional
+}
+```
+
+#### Success Response
+
+- **Code**: 201 Created
+- **Content**:
+
+```json
+{
+  "message": "News created",
+  "news": {
+    "id": 1,
+    "title": "New Feature",
+    "content": "We've added a new feature!",
+    "image": "https://example.com/image.jpg",
+    "createdAt": "2025-05-12T10:13:26.419Z",
+    "updatedAt": "2025-05-12T10:13:26.419Z",
+    "authorId": 4,
+    "ID_project": 3
+  }
+}
+```
+
+#### Error Responses
+
+- **Code**: 400 Bad Request
+
+  - **Content**: `{ "message": "Title and content are required" }`
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "Only the creator can post news" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Internal server error" }`
+
+---
+
+### Update News
+
+Updates an existing news item. Protected by `ensureAuthenticated`.
+
+- **URL**: `/:id`
+- **Method**: `PATCH`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` News ID
+- **Request Body**:
+
+```json
+{
+  "title": "Updated Title",
+  "content": "Updated content",
+  "image": "https://example.com/updated-image.jpg" // Optional
+}
+```
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "News updated",
+  "news": {
+    "id": 1,
+    "title": "Updated Title",
+    "content": "Updated content",
+    "image": "https://example.com/updated-image.jpg",
+    "createdAt": "2025-05-06T14:13:26.419Z",
+    "updatedAt": "2025-05-12T11:02:34.284Z",
+    "authorId": 4,
+    "ID_project": 3
+  }
+}
+```
+
+#### Error Responses
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "Unauthorized" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "message": "News not found" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Internal server error" }`
+
+---
+
+### Delete News
+
+Deletes an existing news item. Protected by `ensureAuthenticated`.
+
+- **URL**: `/:id`
+- **Method**: `DELETE`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` News ID
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "News deleted"
+}
+```
+
+#### Error Responses
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "Unauthorized" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "message": "News not found" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Internal server error" }`
+
+---
+
+### Comment on News
+
+Adds a comment to a news item. Protected by `ensureAuthenticated`.
+
+- **URL**: `/:id/comment`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` News ID
+- **Request Body**:
+
+```json
+{
+  "content": "Great work!",
+  "parentId": 5 // Optional - ID of parent comment (for replies)
+}
+```
+
+#### Success Response
+
+- **Code**: 201 Created
+- **Content**:
+
+```json
+{
+  "message": "Comment posted",
+  "comment": {
+    "id": 3,
+    "ID_news": 1,
+    "ID_user": 2,
+    "content": "Great work!",
+    "ID_parent": null,
+    "createdAt": "2025-05-12T11:25:26.419Z"
+  }
+}
+```
+
+#### Error Responses
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "Creator cannot start a comment thread" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "message": "News not found" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Internal server error" }`
+
+---
+
+### Update News
+
+Updates an existing news item. Protected by `ensureAuthenticated`.
+
+- **URL**: `/:id`
+- **Method**: `PATCH`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` News ID
+- **Request Body**:
+
+```json
+{
+  "title": "Updated Title",
+  "content": "Updated content",
+  "image": "https://example.com/updated-image.jpg" // Optional
+}
+```
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "News updated",
+  "news": {
+    "id": 1,
+    "title": "Updated Title",
+    "content": "Updated content",
+    "image": "https://example.com/updated-image.jpg",
+    "createdAt": "2025-05-06T14:13:26.419Z",
+    "updatedAt": "2025-05-12T11:02:34.284Z",
+    "authorId": 4,
+    "ID_project": 3
+  }
+}
+```
+
+#### Error Responses
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "Unauthorized" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "message": "News not found" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Internal server error" }`
+
+---
+
+### Delete Comment
+
+Deletes a comment from a news item. Protected by `ensureAuthenticated`.
+
+- **URL**: `/comments/:id`
+- **Method**: `DELETE`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` Comment ID
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "Comment deleted successfully"
+}
+```
+
+#### Error Responses
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "You can only delete your own comments" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "message": "Comment not found" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Internal server error" }`
+
+---
+
+### Like News
+
+Adds a like to a news item. Protected by `ensureAuthenticated`.
+
+- **URL**: `/:id/like`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` News ID
+
+#### Success Response
+
+- **Code**: 201 Created
+- **Content**:
+
+```json
+{
+  "message": "News liked"
+}
+```
+
+#### Error Responses
+
+- **Code**: 400 Bad Request
+
+  - **Content**: `{ "message": "Already liked" }`
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "You cannot like your own news" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "message": "News not found" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Error liking news", "error": {...} }`
+
+---
+
+### Unlike News
+
+Removes a like from a news item. Protected by `ensureAuthenticated`.
+
+- **URL**: `/:id/like`
+- **Method**: `DELETE`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` News ID
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "News unliked"
+}
+```
+
+#### Error Responses
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Error unliking news", "error": {...} }`
+
+---
+
+### Like Comment
+
+Adds a like to a comment. Protected by `ensureAuthenticated`.
+
+- **URL**: `/comments/:id/like`
+- **Method**: `POST`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` Comment ID
+
+#### Success Response
+
+- **Code**: 201 Created
+- **Content**:
+
+```json
+{
+  "message": "Comment liked"
+}
+```
+
+#### Error Responses
+
+- **Code**: 400 Bad Request
+
+  - **Content**: `{ "message": "Already liked" }`
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "You cannot like your own comment" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "message": "Comment not found" }`
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Error liking comment", "error": {...} }`
+
+---
+
+### Unlike Comment
+
+Removes a like from a comment. Protected by `ensureAuthenticated`.
+
+- **URL**: `/comments/:id/like`
+- **Method**: `DELETE`
+- **Auth Required**: Yes
+- **URL Params**: `id=[integer]` Comment ID
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "Comment unliked"
+}
+```
+
+#### Error Responses
+
+- **Code**: 500 Internal Server Error
+  - **Content**: `{ "message": "Error unliking comment", "error": {...} }`
+
+---
+
+### Update Comment
+
+Updates the content of a comment on a news item. Protected by `ensureAuthenticated`.
+
+- **URL**: `/:id/comment/:commentId`
+- **Method**: `PATCH`
+- **Auth Required**: Yes
+- **URL Params**:
+
+  - `id=[integer]` News ID
+  - `commentId=[integer]` Comment ID
+
+- **Request Body**:
+
+```json
+{
+  "content": "Updated comment text"
+}
+```
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "message": "Comment updated",
+  "comment": {
+    "id": 12,
+    "ID_news": 1,
+    "ID_user": 2,
+    "content": "Updated comment text",
+    "updatedAt": "2025-05-12T12:34:56.789Z"
+  }
+}
+```
+
+#### Error Responses
+
+- **Code**: 400 Bad Request
+
+  - **Content**: `{ "message": "Content is required" }`
+
+- **Code**: 403 Forbidden
+
+  - **Content**: `{ "message": "You can only update your own comments" }`
+
+- **Code**: 404 Not Found
+
+  - **Content**: `{ "message": "Comment not found" }`
+
+- **Code**: 500 Internal Server Error
+
+  - **Content**: `{ "message": "Internal server error" }`
+
+---
+
+### Get News Like Count
+
+Returns the number of likes on a given news item.
+
+- **URL**: `/:id/likeCount`
+- **Method**: `GET`
+- **Auth Required**: No
+- **URL Params**: `id=[integer]` News ID
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "count": 5
+}
+```
+
+#### Error Responses
+
+- **Code**: 500 Internal Server Error
+
+  - **Content**:
+
+```json
+{
+  "message": "Error fetching like count",
+  "error": "..."
+}
+```
+
+---
+
+### Get Comment Like Count
+
+Returns the number of likes on a specific comment.
+
+- **URL**: `/comments/:id/likeCount`
+- **Method**: `GET`
+- **Auth Required**: No
+- **URL Params**: `id=[integer]` Comment ID
+
+#### Success Response
+
+- **Code**: 200 OK
+- **Content**:
+
+```json
+{
+  "count": 3
+}
+```
+
+#### Error Responses
+
+- **Code**: 500 Internal Server Error
+
+  - **Content**:
+
+```json
+{
+  "message": "Error fetching like count",
+  "error": "..."
+}
+```

@@ -1,15 +1,15 @@
-<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>304</x><y>128</y><w>128</w><h>72</h></coordinates><panel_attributes>_Utilisateur_
+<diagram program="umletino" version="15.1"><zoom_level>7</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>266</x><y>112</y><w>112</w><h>63</h></coordinates><panel_attributes>_Utilisateur_
 --
 ID_User (PK)
 ID_Account (FK_Account)
 username
 avatar
 bio
-isCreator (boolean, default Player)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>88</x><y>264</y><w>96</w><h>64</h></coordinates><panel_attributes>_Portfolio_
+isCreator (boolean, default Player)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>77</x><y>231</y><w>84</w><h>56</h></coordinates><panel_attributes>_Portfolio_
 --
 PK ID portfolio
 SK ID créateur
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>376</x><y>408</y><w>168</w><h>120</h></coordinates><panel_attributes>_Projet_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>329</x><y>357</y><w>147</w><h>105</h></coordinates><panel_attributes>_Projet_
 --
 PK ID projet
 SK id avis
@@ -17,221 +17,266 @@ SK id note_projet
 Nom
 Description
 Date de création
-Statut (en cours, terminé, annulé)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>448</y><w>104</w><h>40</h></coordinates><panel_attributes>_Team_
+Statut (en cours, terminé, annulé)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>392</y><w>91</w><h>35</h></coordinates><panel_attributes>_Team_
 --
 ID équipe
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>576</x><y>584</y><w>120</w><h>88</h></coordinates><panel_attributes>_News_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>504</x><y>511</y><w>105</w><h>77</h></coordinates><panel_attributes>_News_
 --
 PK ID news
 SK id projet
 Contenu
 Date de publication
-Nombre de likes</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>600</x><y>312</y><w>104</w><h>88</h></coordinates><panel_attributes>_note_projet_
+Nombre de likes</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>525</x><y>273</y><w>91</w><h>77</h></coordinates><panel_attributes>_note_projet_
 --
 ID avis
 ID user
 Contenu
 Note (enum 1 to 5)
-Date de publication</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>328</x><y>0</y><w>104</w><h>80</h></coordinates><panel_attributes>_Account_
+Date de publication</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>287</x><y>0</y><w>91</w><h>70</h></coordinates><panel_attributes>_Account_
 --
 ID (PK)
 email
 password (haché)
-createdAt, updatedAt</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>384</x><y>72</y><w>40</w><h>72</h></coordinates><panel_attributes>lt=&lt;.
+createdAt, updatedAt</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>336</x><y>63</y><w>35</w><h>63</h></coordinates><panel_attributes>lt=&lt;.
 m1=1..1
-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>272</x><y>224</y><w>104</w><h>64</h></coordinates><panel_attributes>_Créateur_
+</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>238</x><y>196</y><w>91</w><h>56</h></coordinates><panel_attributes>_Créateur_
 --
 ID user
 ID Créateur
-ID projet</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>168</x><y>424</y><w>104</w><h>64</h></coordinates><panel_attributes>_Recrutement_
+ID projet</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>147</x><y>371</y><w>91</w><h>56</h></coordinates><panel_attributes>_Recrutement_
 --
 PK recrutement 
 SK ID projet
 SK ID team
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>176</x><y>264</y><w>112</w><h>32</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>520</y><w>152</w><h>112</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;120;170;120</additional_attributes></element><element><id>Relation</id><coordinates><x>536</x><y>360</y><w>80</w><h>80</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;80;10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>296</x><y>160</y><w>24</w><h>80</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>768</x><y>552</y><w>104</w><h>88</h></coordinates><panel_attributes>_Commentaire_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>154</x><y>231</y><w>98</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>385</x><y>455</y><w>133</w><h>98</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;120;170;120</additional_attributes></element><element><id>Relation</id><coordinates><x>469</x><y>315</y><w>70</w><h>70</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;80;10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>259</x><y>140</y><w>21</w><h>70</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>672</x><y>483</y><w>91</w><h>77</h></coordinates><panel_attributes>_Commentaire_
 --
 PK ID commentaire
 SK ID joueur
 Contenu
 Date de publication
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>296</x><y>328</y><w>144</w><h>40</h></coordinates><panel_attributes>_Recommendation_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>259</x><y>287</y><w>126</w><h>35</h></coordinates><panel_attributes>_Recommendation_
 --
-calcul avis/note_projet</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>368</x><y>264</y><w>24</w><h>80</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>264</x><y>456</y><w>128</w><h>32</h></coordinates><panel_attributes></panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>96</x><y>456</y><w>88</w><h>32</h></coordinates><panel_attributes></panel_attributes><additional_attributes>90;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>464</x><y>232</y><w>104</w><h>88</h></coordinates><panel_attributes>_note_créateur_
+calcul avis/note_projet</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>322</x><y>231</y><w>21</w><h>70</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>231</x><y>399</y><w>112</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>84</x><y>399</y><w>77</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>90;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>406</x><y>203</y><w>91</w><h>77</h></coordinates><panel_attributes>_note_créateur_
 --
 ID note_créa
 ID user
 Contenu
 Note (enum /5)
-Date de publication</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>368</x><y>248</y><w>112</w><h>32</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>792</x><y>184</y><w>24</w><h>384</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;460</additional_attributes></element><element><id>UMLClass</id><coordinates><x>728</x><y>136</y><w>104</w><h>56</h></coordinates><panel_attributes>_Joueur_
+Date de publication</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>322</x><y>217</y><w>98</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>693</x><y>161</y><w>21</w><h>336</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;460</additional_attributes></element><element><id>UMLClass</id><coordinates><x>637</x><y>119</y><w>91</w><h>49</h></coordinates><panel_attributes>_Joueur_
 --
 PK joueur
-SK ID user</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>48</y><w>104</w><h>88</h></coordinates><panel_attributes>_Admin_
+SK ID user</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>42</y><w>91</w><h>77</h></coordinates><panel_attributes>_Admin_
 --
 PK ID admin
 SK ID user
 versioning
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>960</x><y>176</y><w>96</w><h>64</h></coordinates><panel_attributes>_Modérateur_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>840</x><y>154</y><w>84</w><h>56</h></coordinates><panel_attributes>_Modérateur_
 --
-API profanity filter</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>424</x><y>136</y><w>320</w><h>32</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;380;20</additional_attributes></element><element><id>Relation</id><coordinates><x>392</x><y>360</y><w>24</w><h>64</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>688</x><y>608</y><w>96</w><h>32</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;100;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>608</x><y>456</y><w>104</w><h>88</h></coordinates><panel_attributes>_Avis_
+API profanity filter</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>119</y><w>280</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;380;20</additional_attributes></element><element><id>Relation</id><coordinates><x>343</x><y>315</y><w>21</w><h>56</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>602</x><y>532</y><w>84</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;100;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>532</x><y>399</y><w>91</w><h>77</h></coordinates><panel_attributes>_Avis_
 --
 PK ID avis
 SK ID joueur
 note enum (1 à 5)
 date de publication
-date de modification</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>536</x><y>472</y><w>88</w><h>32</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;90;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>176</x><y>856</y><w>168</w><h>96</h></coordinates><panel_attributes>_User_
+date de modification</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>469</x><y>413</y><w>77</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;90;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>154</x><y>728</y><w>147</w><h>147</h></coordinates><panel_attributes>_User_
 --
-ID_User (PK)
-ID_Account (FK_Account)
-username
-avatar
-bio
-isCreator (boolean, default Player)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>280</x><y>1168</y><w>216</w><h>104</h></coordinates><panel_attributes>_Project_
+  id               Int  
+  email            String   
+  password         String?
+  googleId         String? 
+  githubId         String?  
+  steamId          String? 
+  discordId        String? 
+  totpSecret       String?
+  isTotpEnabled    Boolean  
+  role             Role  
+  profile          Profile?  
+  profileId        Int? 
+  createdAt        DateTime
+  updatedAt        DateTime 
+  news            News[]
+  Creator         Creator[]
+  followedCreators Follow_creator[] 
+  followers        Follow_creator[]
+  isDeleted        Boolean 
+  deletedAt        DateTime?
+  followedProjects Follow_project[]  
+  Review_project Project_review[] 
+  Reviews_likes Like_review[]
+  News_comment Comment_news[]
+  News_likes Like_news[]
+  Comments_likes Like_comment[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>245</x><y>1022</y><w>189</w><h>126</h></coordinates><panel_attributes>_Project_
 --
-PK ID project
-FK ID_rating_project
-title STRING
-description TEXT
-createdAt TIMESTAMP
-status ENUM(in progress, published, canceled)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>1192</y><w>104</w><h>56</h></coordinates><panel_attributes>_Team_
+  id          Int 
+  title       String
+  description String
+  createdAt   DateTime 
+  updatedAt   DateTime 
+  status      ProjectStatus 
+  creator     Creator? 
+  news        News[]
+  followers Follow_project
+  Review_project</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>35</x><y>1043</y><w>91</w><h>49</h></coordinates><panel_attributes>_Team_
 --
 PK ID_team
 FK ID_project
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>504</x><y>1344</y><w>120</w><h>96</h></coordinates><panel_attributes>_News_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>441</x><y>1176</y><w>105</w><h>161</h></coordinates><panel_attributes>_News_
 --
-ID news (PK)
-ID_Project (FK)
-title STRING
-content TEXT
-publishedAt TIMESTAMP
-INT number_likes</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>168</x><y>720</y><w>104</w><h>80</h></coordinates><panel_attributes>_Account_
+  id          Int  
+  title       String
+  content     String
+  image       String?
+  createdAt   DateTime 
+  updatedAt   DateTime 
+  authorId    Int
+  ID_project  Int
+  author  
+  project 
+  likesCount  Int   
+  likes  
+  comments</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>147</x><y>581</y><w>133</w><h>119</h></coordinates><panel_attributes>_Profile_
 --
-ID (PK)
-email
-password (haché)
-createdAt, updatedAt</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>256</x><y>792</y><w>24</w><h>80</h></coordinates><panel_attributes>lt=&lt;.
-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>184</x><y>1000</y><w>104</w><h>64</h></coordinates><panel_attributes>_Creator_
+  id            Int 
+  username      String 
+  avatarUrl     String?
+  bio           String?
+  socialLinks   Json?
+  isAnonymized  Boolean 
+  createdAt     DateTime
+  updatedAt     DateTime
+  user          User?</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>224</x><y>693</y><w>21</w><h>49</h></coordinates><panel_attributes>lt=&lt;.
+</panel_attributes><additional_attributes>10;10;10;50</additional_attributes></element><element><id>UMLClass</id><coordinates><x>161</x><y>924</y><w>91</w><h>42</h></coordinates><panel_attributes>_Creator_
 --
-ID_user (FK)
-ID_creator (PK)
-ID_project (FK)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>344</x><y>1264</y><w>176</w><h>136</h></coordinates><panel_attributes>lt=-
+  ID_creator Int
+  ID_project Int 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>301</x><y>1141</y><w>154</w><h>84</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;10;10;140;200;140</additional_attributes></element><element><id>Relation</id><coordinates><x>232</x><y>944</y><w>40</w><h>72</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;10;10;90;200;90</additional_attributes></element><element><id>Relation</id><coordinates><x>203</x><y>868</y><w>35</w><h>70</h></coordinates><panel_attributes>lt=-
 m2=1..1
-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>960</x><y>1328</y><w>184</w><h>112</h></coordinates><panel_attributes>_Comment_news_
+</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>840</x><y>1162</y><w>119</w><h>147</h></coordinates><panel_attributes>_Comment_news_
 --
-PK ID_comment
-FK ID_News
-FK ID_User
-content TEXT
-ID_parent (FK)
-publishedAt TIMESTAMP
-createdAt TIMESTAMP
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>1056</y><w>40</w><h>128</h></coordinates><panel_attributes>lt=-
+  id           Int  
+  ID_news      Int
+  ID_user      Int
+  ID_parent    Int?
+  content      String
+  createdAt    DateTime  
+  updatedAt    DateTime  
+  news 
+  user  
+  parent  
+  replies 
+  likes</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>245</x><y>952</y><w>35</w><h>84</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;10;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>136</x><y>1208</y><w>160</w><h>32</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>119</x><y>1057</y><w>140</w><h>28</h></coordinates><panel_attributes>lt=-
 m2=1..1
-m1=0..n</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1056</x><y>960</y><w>40</w><h>384</h></coordinates><panel_attributes>lt=-
+m1=0..n</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>924</x><y>840</y><w>35</w><h>336</h></coordinates><panel_attributes>lt=-
 m1=0..n
-m2=1..1</panel_attributes><additional_attributes>10;10;10;460</additional_attributes></element><element><id>UMLClass</id><coordinates><x>784</x><y>856</y><w>104</w><h>64</h></coordinates><panel_attributes>_Player_
+m2=1..1</panel_attributes><additional_attributes>10;10;10;460</additional_attributes></element><element><id>UMLClass</id><coordinates><x>686</x><y>749</y><w>91</w><h>56</h></coordinates><panel_attributes>_Player_
 --
 PK joueur
-FK ID user</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>616</x><y>1408</y><w>360</w><h>32</h></coordinates><panel_attributes>lt=-
+FK ID user</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>539</x><y>1232</y><w>315</w><h>28</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;10;430;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>712</x><y>1208</y><w>176</w><h>104</h></coordinates><panel_attributes>_Review_project_
+m2=0..n</panel_attributes><additional_attributes>10;10;430;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>623</x><y>1057</y><w>154</w><h>105</h></coordinates><panel_attributes>_Project_review_
 --
-ID_review (PK)
-ID_author (FK User)
-ID_project (FL Projet)
-rating INT CHECK (enum/5)
-comment TEXT
-createdAt (TIMESTAMP)
-updatedAt (TIMESTAMP)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>488</x><y>1248</y><w>240</w><h>32</h></coordinates><panel_attributes>lt=-
+  ID_review           Int  
+  ID_author           Int
+  ID_project          Int
+  rating              Int
+  comment             String?
+  createdAt           DateTime
+  updatedAt           DateTime  
+  likeCount           Int    
+
+  author 
+  project
+
+  likes      Like_review[]
+
+  ([ID_author, ID_project])</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>427</x><y>1092</y><w>210</w><h>28</h></coordinates><panel_attributes>lt=-
 m2=0..n
-m1=1..1</panel_attributes><additional_attributes>10;10;280;10</additional_attributes></element><element><id>Relation</id><coordinates><x>336</x><y>856</y><w>464</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1..1</panel_attributes><additional_attributes>10;10;280;10</additional_attributes></element><element><id>Relation</id><coordinates><x>294</x><y>749</y><w>406</w><h>35</h></coordinates><panel_attributes>lt=-
 m1=1..1
-</panel_attributes><additional_attributes>10;20;560;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>48</x><y>872</y><w>72</w><h>56</h></coordinates><panel_attributes>_User_team_
+</panel_attributes><additional_attributes>10;20;560;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>42</x><y>763</y><w>63</w><h>49</h></coordinates><panel_attributes>_User_team_
 --
 PK_FK User
 PK_FK Team
-Role</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>112</x><y>888</y><w>80</w><h>32</h></coordinates><panel_attributes>lt=-
+Role</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>98</x><y>777</y><w>70</w><h>28</h></coordinates><panel_attributes>lt=-
 m1=0..n
-m2=1..1</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>64</x><y>920</y><w>40</w><h>288</h></coordinates><panel_attributes>lt=-
+m2=1..1</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>56</x><y>805</y><w>35</w><h>252</h></coordinates><panel_attributes>lt=-
 m1=0..n
 m2=1..1
-</panel_attributes><additional_attributes>10;10;10;340</additional_attributes></element><element><id>UMLClass</id><coordinates><x>464</x><y>1032</y><w>128</w><h>72</h></coordinates><panel_attributes>_Follow_creator_
+</panel_attributes><additional_attributes>10;10;10;340</additional_attributes></element><element><id>UMLClass</id><coordinates><x>406</x><y>903</y><w>112</w><h>84</h></coordinates><panel_attributes>_Follow_creator_
 --
-ID_follow (PK)
-ID_user (FK User)
-createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>1056</y><w>200</w><h>32</h></coordinates><panel_attributes>lt=-
+  ID_user                Int
+  ID_creator             Int
+  createdAt              DateTime
+  notificationsEnabled   Boolean 
+  follower 
+  followedCreator  </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>245</x><y>952</y><w>175</w><h>28</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>230;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>1096</y><w>128</w><h>96</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>230;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>385</x><y>980</y><w>112</w><h>63</h></coordinates><panel_attributes>lt=-
 m2=0..n
-</panel_attributes><additional_attributes>140;10;140;90;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>584</x><y>912</y><w>216</w><h>136</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>140;10;140;60;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>511</x><y>798</y><w>189</w><h>119</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;150;10;10;250;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>816</x><y>1016</y><w>112</w><h>72</h></coordinates><panel_attributes>_Like_review_
+m2=0..n</panel_attributes><additional_attributes>10;150;10;10;250;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>714</x><y>889</y><w>105</w><h>84</h></coordinates><panel_attributes>_Like_review_
 --
-ID_user (FK)
-ID_avis (FK)
-PK ID_avis
-createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>992</x><y>896</y><w>120</w><h>72</h></coordinates><panel_attributes>_Like_comment_
+  ID_user   Int
+  ID_review  Int
+  createdAt   DateTime
+  user 
+  review  
+  id([ID_user, ID_review])</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>868</x><y>784</y><w>105</w><h>63</h></coordinates><panel_attributes>_Like_comment_
 --
 ID_comment (PK_FK)
 ID_user (FK)
 ID_commentaire (FK)
-createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>880</x><y>888</y><w>136</w><h>32</h></coordinates><panel_attributes>lt=-
+createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>777</y><w>119</w><h>28</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;10;100;10;150;10</additional_attributes></element><element><id>Relation</id><coordinates><x>872</x><y>1080</y><w>40</w><h>144</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;10;100;10;150;10</additional_attributes></element><element><id>Relation</id><coordinates><x>763</x><y>966</y><w>35</w><h>105</h></coordinates><panel_attributes>lt=-
 m1=0..n
-m2=1..1</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>872</x><y>912</y><w>40</w><h>120</h></coordinates><panel_attributes>lt=-
+m2=1..1</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>763</x><y>798</y><w>35</w><h>105</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>1000</y><w>104</w><h>32</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>245</x><y>875</y><w>126</w><h>70</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;10;110;10</additional_attributes></element><element><id>Relation</id><coordinates><x>496</x><y>888</y><w>304</w><h>32</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;70;140;70;140;10</additional_attributes></element><element><id>Relation</id><coordinates><x>434</x><y>777</y><w>266</w><h>28</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>360;10;60;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>368</x><y>896</y><w>176</w><h>112</h></coordinates><panel_attributes>_Review_creator_
+m2=0..n</panel_attributes><additional_attributes>360;10;60;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>343</x><y>784</y><w>133</w><h>98</h></coordinates><panel_attributes>_Review_creator_
 --
 ID_avis (PK)
 ID_author (FK User)
 ID_Creator (FK Creator)
 rating INT CHECK (enum/5)
 comment TEXT
-createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>632</x><y>984</y><w>104</w><h>72</h></coordinates><panel_attributes>_Like_projet_
+createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>553</x><y>861</y><w>91</w><h>63</h></coordinates><panel_attributes>_Like_projet_
 --
 ID_user (FK)
 ID_projet (FK)
 PK ID_avis
-createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>488</x><y>1048</y><w>200</w><h>176</h></coordinates><panel_attributes>lt=-
+createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>427</x><y>910</y><w>154</w><h>161</h></coordinates><panel_attributes>lt=-
 m1=0..n
-m2=1..1</panel_attributes><additional_attributes>220;10;90;190;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>728</x><y>912</y><w>96</w><h>96</h></coordinates><panel_attributes>lt=-
+m2=1..1</panel_attributes><additional_attributes>180;10;180;200;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>637</x><y>798</y><w>84</w><h>84</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>80;10;80;90;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>920</x><y>1096</y><w>112</w><h>72</h></coordinates><panel_attributes>_Like_news_
+m2=0..n</panel_attributes><additional_attributes>80;10;80;90;10;90</additional_attributes></element><element><id>UMLClass</id><coordinates><x>805</x><y>994</y><w>98</w><h>63</h></coordinates><panel_attributes>_Like_news_
 --
 ID_user (FK)
 ID_news (FK)
 PK ID_review
-createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>880</x><y>912</y><w>96</w><h>200</h></coordinates><panel_attributes>lt=-
+createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>798</y><w>84</w><h>210</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;10;80;10;80;230</additional_attributes></element><element><id>Relation</id><coordinates><x>616</x><y>1160</y><w>352</w><h>216</h></coordinates><panel_attributes>lt=-
+m2=0..n</panel_attributes><additional_attributes>10;10;80;10;80;280</additional_attributes></element><element><id>Relation</id><coordinates><x>539</x><y>1050</y><w>308</w><h>154</h></coordinates><panel_attributes>lt=-
 m2=0..n
-m1=1..1</panel_attributes><additional_attributes>10;240;400;240;400;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1080</x><y>1120</y><w>144</w><h>96</h></coordinates><panel_attributes>_Review_news_
+m1=1..1</panel_attributes><additional_attributes>10;190;400;190;400;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>574</x><y>945</y><w>133</w><h>98</h></coordinates><panel_attributes>_Follow_project_
 --
-ID_review (PK)
-ID_author (FK User)
-ID_news (FK news)
-rating INT CHECK (enum/5)
-comment TEXT
-createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>1208</y><w>640</w><h>296</h></coordinates><panel_attributes>lt=-
+  ID_user        Int
+  ID_project    Int
+  createdAt     DateTime
+  notificationsEnabled Boolean 
+  user 
+  project 
+  id([ID_user, ID_project])</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>427</x><y>1036</y><w>175</w><h>63</h></coordinates><panel_attributes>lt=-
 m2=0..n
-m1=1..1</panel_attributes><additional_attributes>10;290;10;350;760;350;760;10</additional_attributes></element><element><id>Relation</id><coordinates><x>880</x><y>856</y><w>296</w><h>280</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>230;10;230;60;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>672</x><y>798</y><w>77</w><h>161</h></coordinates><panel_attributes>lt=-
 m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;10;330;10;330;330</additional_attributes></element><element><id>UMLClass</id><coordinates><x>656</x><y>1104</y><w>128</w><h>80</h></coordinates><panel_attributes>_Follow_project_
---
-ID_follow (PK)
-ID_user (FK User)
-ID_project (FK Project)
-createdAt TIMESTAMP</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>488</x><y>1176</y><w>200</w><h>80</h></coordinates><panel_attributes>lt=-
-m2=0..n
-</panel_attributes><additional_attributes>230;10;230;70;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>768</x><y>912</y><w>88</w><h>208</h></coordinates><panel_attributes>lt=-
-m1=1..1
-m2=0..n</panel_attributes><additional_attributes>10;240;70;80;70;10</additional_attributes></element></diagram>
+m2=0..n</panel_attributes><additional_attributes>10;210;70;80;70;10</additional_attributes></element></diagram>
