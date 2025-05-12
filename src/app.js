@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
 const dotenv = require("dotenv");
@@ -15,6 +16,13 @@ dotenv.config();
 
 // charger la configuration de passport
 require("./config/passportConfig");
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 
 // Initiliaser l'application express
 const app = express();
