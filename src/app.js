@@ -10,17 +10,18 @@ const profileRoutes = require("./routes/profileRoutes");
 const projectsRoutes = require("./routes/projectRoutes");
 const followRoutes = require("./routes/followRoutes");
 const newsRoutes = require("./routes/newsRoutes");
+const teamRoutes = require("./routes/teamRoutes");
 
-// Charger les variables d'environnement
+// Load environment variables
 dotenv.config();
 
-// charger la configuration de passport
+// Load passport configuration
 require("./config/passportConfig");
 
-// Initiliaser l'application express
+// Initiliaze express app
 const app = express();
 
-// Middleware pour parser les JSON
+// Parse JSON bodies
 app.use(express.json());
 
 app.use(
@@ -38,25 +39,28 @@ app.use(
   })
 );
 
-// Initialisation de passport
+// Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes d'authentification
+// Auth routes
 app.use("/auth", oauthRoutes);
 app.use("/auth", authRoutes);
 app.use("/2fa", twoFactorRoutes);
 
-// Routes pour le profil utilisateur
+// Routes for the user profile
 app.use("/profile", profileRoutes);
 
-// Routes pour les projets
+// Routes for the projets
 app.use("/projects", projectsRoutes);
 
-// Routes pour les follow
+// Routes for the follow
 app.use("/follow", followRoutes);
 
-// Routes pour les news
+// Routes For the news
 app.use("/news", newsRoutes);
+
+// Routes for the Teams
+app.use("/teams", teamRoutes);
 
 module.exports = app;
