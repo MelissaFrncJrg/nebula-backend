@@ -68,14 +68,14 @@ model Profile {
 }
 
 model Creator {
-  ID_creator Int @unique
-  ID_project Int  @unique
+  ID_creator Int
+  ID_project Int @unique
 
   user    User    @relation(fields: [ID_creator], references: [id])
   project Project @relation("ProjectCreator", fields: [ID_project], references: [id])
 
   @@id([ID_creator, ID_project])
-  Team Team[]
+  Team Team[] @relation("CreatorTeams")
 }
 
 model Follow_creator {
@@ -238,7 +238,8 @@ model Team {
   updatedAt   DateTime   @updatedAt
 
   project     Project    @relation(fields: [ID_project], references: [id])
-  creator     Creator    @relation(fields: [ID_creator], references: [ID_creator])
+  creator Creator @relation("CreatorTeams", fields: [ID_creator, ID_project], references: [ID_creator, ID_project])
+
 
   @@id([ID_project, ID_creator])
 }
