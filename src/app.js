@@ -1,15 +1,16 @@
-const express = require("express");
 const cors = require("cors");
-const session = require("express-session");
-const passport = require("passport");
 const dotenv = require("dotenv");
+const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
+
 const authRoutes = require("./routes/authRoutes");
-const oauthRoutes = require("./routes/oauthRoutes");
-const twoFactorRoutes = require("./routes/twoFactorRoutes");
-const profileRoutes = require("./routes/profileRoutes");
-const projectsRoutes = require("./routes/projectRoutes");
 const followRoutes = require("./routes/followRoutes");
 const newsRoutes = require("./routes/newsRoutes");
+const oauthRoutes = require("./routes/oauthRoutes");
+const profileRoutes = require("./routes/profileRoutes");
+const projectsRoutes = require("./routes/projectRoutes");
+const twoFactorRoutes = require("./routes/twoFactorRoutes");
 const teamRoutes = require("./routes/teamRoutes");
 
 // Load environment variables

@@ -1,7 +1,12 @@
 const express = require("express");
 const passport = require("passport");
 const qrcode = require("qrcode");
+const {
+  requestPasswordReset,
+  resetPassword,
+} = require("../controllers/passwordController");
 const { registerUser } = require("../services/authService");
+const { resetPasswordLimiter } = require("../middlewares/resetPasswordLimit");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -49,5 +54,13 @@ router.post("/login", async (req, res, next) => {
     });
   })(req, res, next);
 });
+
+router.post(
+  "/request-password-reset",
+  resetPasswordLimiter,
+  requestPasswordReset
+);
+
+router.post("/reset-password", resetPassword);
 
 module.exports = router;

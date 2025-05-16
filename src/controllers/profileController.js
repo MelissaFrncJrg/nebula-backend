@@ -149,3 +149,38 @@ exports.deleteAccount = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+exports.updatePassword = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user || !user.password) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (isMatch) {
+      return res.status(401).json({ message: "Current password is incorrect" });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashed },
+    });
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error("Error while updating password:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
