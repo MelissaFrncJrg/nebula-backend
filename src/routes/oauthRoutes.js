@@ -4,11 +4,11 @@ const passport = require("passport");
 const router = express.Router();
 
 router.get(
-  "/google",
+  "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 router.get(
-  "/google/callback",
+  "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
     res.redirect("/");
