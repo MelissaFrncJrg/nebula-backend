@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const {
+  getProfile,
   updateProfile,
   switchToCreator,
   deleteAccount,
 } = require("../controllers/profileController");
 const { ensureAuthenticated } = require("../middlewares/authMiddleware");
+const { authenticateToken } = require("../middlewares/jwtMiddleware");
+
+router.get("/", authenticateToken, getProfile);
 
 router.patch("/", ensureAuthenticated, updateProfile);
 

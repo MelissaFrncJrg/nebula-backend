@@ -1,11 +1,13 @@
 const express = require("express");
 const passport = require("passport");
 const qrcode = require("qrcode");
+const jwt = require("jsonwebtoken");
 const { registerUser } = require("../services/authService");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET || "nebula_secret_key";
 
 router.post("/register", async (req, res) => {
   const { email, password, username } = req.body;
@@ -45,7 +47,23 @@ router.post("/login", async (req, res, next) => {
         return res.status(200).json({ isTotpEnabled: true });
       }
 
-      return res.status(200).json({ success: true, user });
+      const token = jwt.sign(
+        {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+        },
+        JWT_SECRET,
+        {
+          expiresIn: "1d",
+        }
+      )
+
+      return res.status(200).json({ 
+        success: true, 
+        user,
+        token
+      });
     });
   })(req, res, next);
 });
