@@ -39,7 +39,7 @@ router.post("/login", async (req, res, next) => {
     if (err) return next(err);
     if (!user) return res.status(401).json({ error: info.message });
 
-    req.login(user, (err) => {
+    req.login(user, async (err) => {
       if (err) return next(err);
 
       if (user.isTotpEnabled) {
@@ -47,11 +47,17 @@ router.post("/login", async (req, res, next) => {
         return res.status(200).json({ isTotpEnabled: true });
       }
 
+      // 🔄 Recharge l'utilisateur complet depuis la BDD
+      const fullUser = await prisma.user.findUnique({
+        where: { id: user.id },
+        include: { profile: true }, // si tu veux l'utiliser plus tard
+      });
+
       const token = jwt.sign(
         {
-          id: user.id,
-          email: user.email,
-          role: user.role,
+          id: fullUser.id,
+          email: fullUser.email,
+          role: fullUser.role,
         },
         JWT_SECRET,
         {
@@ -61,7 +67,7 @@ router.post("/login", async (req, res, next) => {
 
       return res.status(200).json({ 
         success: true, 
-        user,
+        user: fullUser,
         token
       });
     });
