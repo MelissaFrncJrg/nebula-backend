@@ -75,6 +75,38 @@ exports.updateProject = async (req, res) => {
   }
 };
 
+exports.getProjectById = async (req, res) => {
+  const projectId = parseInt(req.params.id, 10)
+
+  try {
+    const project = await prisma.project.findUnique({
+      where: { id: projectId },
+      include: {
+        creator: {
+          include: {
+            user: {
+              include: {
+                profile: true
+              }
+            }
+          }
+        },
+        news: true,
+        Review_project: true
+      }
+    })
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" })
+    }
+
+    res.status(200).json({ project })
+  } catch (err) {
+    console.error(`Error retrieving project ${projectId}:`, err)
+    res.status(500).json({ message: "Server error" })
+  }
+}
+
 exports.getMyProjects = async (req, res) => {
   const userId = req.user.id;
 

@@ -6,6 +6,7 @@ const {
   createProject,
   updateProject,
   getMyProjects,
+  getProjectById,
   getProjectsByProfileId,
   deleteProject,
   followProject,
@@ -57,5 +58,7 @@ router.delete("/reviews/:id", ensureAuthenticated, deleteReview);
 router.post("/reviews/:id/like", ensureAuthenticated, likeReview);
 
 router.delete("/reviews/:id/like", ensureAuthenticated, unlikeReview);
+
+router.get("/:id", ensureAuthenticated, ensureRole("CREATOR"), getProjectById);
 
 module.exports = router;
