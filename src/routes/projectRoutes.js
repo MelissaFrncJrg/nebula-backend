@@ -62,6 +62,6 @@ router.post("/reviews/:id/like", ensureAuthenticated, likeReview);
 
 router.delete("/reviews/:id/like", ensureAuthenticated, unlikeReview);
 
-router.get("/:id", ensureAuthenticated, ensureRole("CREATOR"), getProjectById);
+router.get("/:id", getProjectById);
 
 module.exports = router;
