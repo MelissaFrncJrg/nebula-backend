@@ -6,8 +6,9 @@ const {
   createProject,
   updateProject,
   getMyProjects,
-  getProjectById,
+  getAllCreatorProjects,
   getProjectsByProfileId,
+  getProjectById,
   deleteProject,
   followProject,
   unfollowProject,
@@ -21,6 +22,8 @@ const {
   unlikeReview,
   getReviewLikesCount,
 } = require("../controllers/projectReviewController");
+
+router.get("/creators", getAllCreatorProjects)
 
 router.get("/:id/reviews", getProjectReviews);
 

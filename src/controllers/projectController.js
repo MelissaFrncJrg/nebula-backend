@@ -125,6 +125,41 @@ exports.getMyProjects = async (req, res) => {
   }
 };
 
+exports.getAllCreatorProjects = async (req, res) => {
+  try {
+    // Récupère tous les liens entre créateurs et projets
+    const creatorLinks = await prisma.creator.findMany({
+      include: {
+        project: true,
+        user: {
+          select: {
+            id: true,
+            profile: {
+              select: {
+                id: true,
+                username: true,
+                avatarUrl: true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    // Map les résultats en projet enrichi d'infos créateur
+    const projects = creatorLinks.map(link => ({
+      ...link.project,
+      creatorId: link.user.id,
+      creatorProfile: link.user.profile
+    }))
+
+    res.status(200).json({ projects })
+  } catch (err) {
+    console.error("Erreur lors de la récupération des projets des créateurs :", err)
+    res.status(500).json({ message: "Erreur serveur" })
+  }
+}
+
 exports.getProjectsByProfileId = async (req, res) => {
   const profileId = parseInt(req.params.profileId, 10);
 
