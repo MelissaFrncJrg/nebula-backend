@@ -92,7 +92,17 @@ exports.getProjectById = async (req, res) => {
           }
         },
         news: true,
-        Review_project: true
+        Review_project: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                profile: true
+              }
+            },
+            likes: true
+          }
+        }
       }
     })
 
@@ -100,7 +110,22 @@ exports.getProjectById = async (req, res) => {
       return res.status(404).json({ message: "Project not found" })
     }
 
-    res.status(200).json({ project })
+    let isFollowedByCurrentUser = false
+
+    if (req.user) {
+      const follow = await prisma.follow_project.findUnique({
+        where: {
+          ID_user_ID_project: {
+            ID_user: req.user.id,
+            ID_project: projectId
+          }
+        }
+      })
+
+      isFollowedByCurrentUser = !!follow
+    }
+
+    res.status(200).json({ project, isFollowedByCurrentUser })
   } catch (err) {
     console.error(`Error retrieving project ${projectId}:`, err)
     res.status(500).json({ message: "Server error" })
