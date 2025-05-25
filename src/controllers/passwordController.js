@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const crypto = require("crypto");
 const prisma = new PrismaClient();
+const { sendPasswordResetMail } = require("../services/mailer");
 
 exports.requestPasswordReset = async (req, res) => {
   const { email } = req.body;
@@ -29,8 +30,10 @@ exports.requestPasswordReset = async (req, res) => {
       },
     });
 
+    await sendPasswordResetMail(user.email, token);
+
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
-    console.log("🔗 Reset URL:", resetUrl);
+    console.log("Reset URL:", resetUrl);
 
     return res
       .status(200)
