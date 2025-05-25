@@ -7,17 +7,15 @@ exports.getProfile = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // 🔄 On récupère l'utilisateur et son profil associé
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: { profile: true },
     });
 
     if (!user || !user.profile) {
-      return res.status(404).json({ message: "Profil utilisateur introuvable" });
+      return res.status(404).json({ message: "User profile not found" });
     }
 
-    // 🔄 On envoie le profil en réponse
     res.status(200).json({
       profile: {
         username: user.profile.username,
@@ -27,8 +25,8 @@ exports.getProfile = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("Erreur lors de la récupération du profil :", err);
-    res.status(500).json({ message: "Erreur serveur." });
+    console.error("An error occured when trying to get the profile :", err);
+    res.status(500).json({ message: "Server error." });
   }
 };
 

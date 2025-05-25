@@ -6,15 +6,14 @@ const {
   switchToCreator,
   deleteAccount,
 } = require("../controllers/profileController");
-const { ensureAuthenticated } = require("../middlewares/authMiddleware");
 const { authenticateToken } = require("../middlewares/jwtMiddleware");
 
 router.get("/", authenticateToken, getProfile);
 
-router.patch("/", ensureAuthenticated, updateProfile);
+router.patch("/", authenticateToken, updateProfile);
 
-router.delete("/delete-account", ensureAuthenticated, deleteAccount);
+router.delete("/delete-account", authenticateToken, deleteAccount);
 
-router.patch("/switch-to-creator", ensureAuthenticated, switchToCreator);
+router.patch("/switch-to-creator", authenticateToken, switchToCreator);
 
 module.exports = router;

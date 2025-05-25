@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ensureAuthenticated } = require("../middlewares/authMiddleware");
+const { authenticateToken } = require("../middlewares/jwtMiddleware");
 const { ensureRole } = require("../middlewares/roleMiddleware");
 const {
   createProject,
@@ -23,7 +23,7 @@ const {
   getReviewLikesCount,
 } = require("../controllers/projectReviewController");
 
-router.get("/creators", getAllCreatorProjects)
+router.get("/creators", getAllCreatorProjects);
 
 router.get("/:id/reviews", getProjectReviews);
 
@@ -31,36 +31,31 @@ router.get("/creators/:profileId", getProjectsByProfileId);
 
 router.get("/reviews/:id/likes", getReviewLikesCount);
 
-router.post("/", ensureAuthenticated, ensureRole("CREATOR"), createProject);
+router.post("/", authenticateToken, ensureRole("CREATOR"), createProject);
 
-router.patch("/:id", ensureAuthenticated, ensureRole("CREATOR"), updateProject);
+router.patch("/:id", authenticateToken, ensureRole("CREATOR"), updateProject);
 
-router.get("/mine", ensureAuthenticated, ensureRole("CREATOR"), getMyProjects);
+router.get("/mine", authenticateToken, ensureRole("CREATOR"), getMyProjects);
 
-router.delete(
-  "/:id",
-  ensureAuthenticated,
-  ensureRole("CREATOR"),
-  deleteProject
-);
+router.delete("/:id", authenticateToken, ensureRole("CREATOR"), deleteProject);
 
-router.post("/:id/follow", ensureAuthenticated, followProject);
+router.post("/:id/follow", authenticateToken, followProject);
 
-router.delete("/:id/follow", ensureAuthenticated, unfollowProject);
+router.delete("/:id/follow", authenticateToken, unfollowProject);
 
 router.patch(
   "/:id/notifications",
-  ensureAuthenticated,
+  authenticateToken,
   updateProjectNotifications
 );
 
-router.post("/:id/review", ensureAuthenticated, createUpdateReview);
+router.post("/:id/review", authenticateToken, createUpdateReview);
 
-router.delete("/reviews/:id", ensureAuthenticated, deleteReview);
+router.delete("/reviews/:id", authenticateToken, deleteReview);
 
-router.post("/reviews/:id/like", ensureAuthenticated, likeReview);
+router.post("/reviews/:id/like", authenticateToken, likeReview);
 
-router.delete("/reviews/:id/like", ensureAuthenticated, unlikeReview);
+router.delete("/reviews/:id/like", authenticateToken, unlikeReview);
 
 router.get("/:id", getProjectById);
 

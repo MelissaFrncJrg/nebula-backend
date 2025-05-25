@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ensureAuthenticated } = require("../middlewares/authMiddleware");
+const { authenticateToken } = require("../middlewares/jwtMiddleware");
 const { ensureRole } = require("../middlewares/roleMiddleware");
 const {
   createTeam,
@@ -12,25 +12,25 @@ const {
 
 router.post(
   "/:projectId",
-  ensureAuthenticated,
+  authenticateToken,
   ensureRole("CREATOR"),
   createTeam
 );
 
-router.get("/mine", ensureAuthenticated, ensureRole("CREATOR"), getMyTeams);
+router.get("/mine", authenticateToken, ensureRole("CREATOR"), getMyTeams);
 
 router.get("/all", getAllTeams);
 
 router.patch(
   "/mine/:projectId",
+  authenticateToken,
   ensureRole("CREATOR"),
-  ensureAuthenticated,
   updateTeam
 );
 
 router.delete(
   "/mine/:projectId",
-  ensureAuthenticated,
+  authenticateToken,
   ensureRole("CREATOR"),
   deleteTeam
 );
