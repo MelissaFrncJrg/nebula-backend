@@ -1,11 +1,13 @@
 const express = require("express");
 const passport = require("passport");
 const qrcode = require("qrcode");
+const jwt = require("jsonwebtoken");
 const { registerUser } = require("../services/authService");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET || "nebula_secret_key";
 
 router.post("/register", async (req, res) => {
   const { email, password, username } = req.body;
@@ -37,7 +39,7 @@ router.post("/login", async (req, res, next) => {
     if (err) return next(err);
     if (!user) return res.status(401).json({ error: info.message });
 
-    req.login(user, (err) => {
+    req.login(user, async (err) => {
       if (err) return next(err);
 
       if (user.isTotpEnabled) {
@@ -45,7 +47,28 @@ router.post("/login", async (req, res, next) => {
         return res.status(200).json({ isTotpEnabled: true });
       }
 
-      return res.status(200).json({ success: true, user });
+      const fullUser = await prisma.user.findUnique({
+        where: { id: user.id },
+        include: { profile: true },
+      });
+
+      const token = jwt.sign(
+        {
+          id: fullUser.id,
+          email: fullUser.email,
+          role: fullUser.role,
+        },
+        JWT_SECRET,
+        {
+          expiresIn: "1d",
+        }
+      );
+
+      return res.status(200).json({
+        success: true,
+        user: fullUser,
+        token,
+      });
     });
   })(req, res, next);
 });

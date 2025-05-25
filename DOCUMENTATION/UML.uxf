@@ -20,7 +20,7 @@ Date de création
 Statut (en cours, terminé, annulé)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>392</y><w>91</w><h>35</h></coordinates><panel_attributes>_Team_
 --
 ID équipe
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>504</x><y>511</y><w>105</w><h>77</h></coordinates><panel_attributes>_News_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>504</x><y>497</y><w>105</w><h>77</h></coordinates><panel_attributes>_News_
 --
 PK ID news
 SK id projet
@@ -48,7 +48,7 @@ ID projet</panel_attributes><additional_attributes></additional_attributes></ele
 PK recrutement 
 SK ID projet
 SK ID team
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>154</x><y>231</y><w>98</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>385</x><y>455</y><w>133</w><h>98</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;120;170;120</additional_attributes></element><element><id>Relation</id><coordinates><x>469</x><y>315</y><w>70</w><h>70</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;80;10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>259</x><y>140</y><w>21</w><h>70</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>672</x><y>483</y><w>91</w><h>77</h></coordinates><panel_attributes>_Commentaire_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>154</x><y>231</y><w>98</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>385</x><y>455</y><w>133</w><h>84</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;100;170;100</additional_attributes></element><element><id>Relation</id><coordinates><x>469</x><y>315</y><w>70</w><h>70</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;80;10;10;80;10</additional_attributes></element><element><id>Relation</id><coordinates><x>259</x><y>140</y><w>21</w><h>70</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>672</x><y>483</y><w>91</w><h>77</h></coordinates><panel_attributes>_Commentaire_
 --
 PK ID commentaire
 SK ID joueur
@@ -73,7 +73,7 @@ versioning
 
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>840</x><y>154</y><w>84</w><h>56</h></coordinates><panel_attributes>_Modérateur_
 --
-API profanity filter</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>119</y><w>280</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;380;20</additional_attributes></element><element><id>Relation</id><coordinates><x>343</x><y>315</y><w>21</w><h>56</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>602</x><y>532</y><w>84</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;100;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>532</x><y>399</y><w>91</w><h>77</h></coordinates><panel_attributes>_Avis_
+API profanity filter</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>119</y><w>280</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;380;20</additional_attributes></element><element><id>Relation</id><coordinates><x>343</x><y>315</y><w>21</w><h>56</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>602</x><y>518</y><w>84</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;100;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>532</x><y>399</y><w>91</w><h>77</h></coordinates><panel_attributes>_Avis_
 --
 PK ID avis
 SK ID joueur

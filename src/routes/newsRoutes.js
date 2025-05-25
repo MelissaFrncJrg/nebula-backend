@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ensureAuthenticated } = require("../middlewares/authMiddleware");
+const { authenticateToken } = require("../middlewares/jwtMiddleware");
 const {
   createNews,
   updateNews,
@@ -19,20 +19,20 @@ const {
 
 router.get("/projects/:id", getProjectNews);
 
-router.post("/projects/:id", ensureAuthenticated, createNews);
-router.patch("/:id", ensureAuthenticated, updateNews);
-router.delete("/:id", ensureAuthenticated, deleteNews);
+router.post("/projects/:id", authenticateToken, createNews);
+router.patch("/:id", authenticateToken, updateNews);
+router.delete("/:id", authenticateToken, deleteNews);
 
-router.post("/:id/comment", ensureAuthenticated, commentNews);
-router.patch("/:id/comment/:id", ensureAuthenticated, updateComment);
-router.delete("/comments/:id", ensureAuthenticated, deleteComment);
+router.post("/:id/comment", authenticateToken, commentNews);
+router.patch("/:id/comment/:id", authenticateToken, updateComment);
+router.delete("/comments/:id", authenticateToken, deleteComment);
 
-router.post("/:id/like", ensureAuthenticated, likeNews);
-router.delete("/:id/like", ensureAuthenticated, unlikeNews);
+router.post("/:id/like", authenticateToken, likeNews);
+router.delete("/:id/like", authenticateToken, unlikeNews);
 router.get("/:id/likeCount", getNewsLikeCount);
 
-router.post("/comments/:id/like", ensureAuthenticated, likeComment);
-router.delete("/comments/:id/like", ensureAuthenticated, unlikeComment);
+router.post("/comments/:id/like", authenticateToken, likeComment);
+router.delete("/comments/:id/like", authenticateToken, unlikeComment);
 router.get("/comments/:id/likeCount", getCommentLikeCount);
 
 module.exports = router;

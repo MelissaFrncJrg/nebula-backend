@@ -1,3 +1,107 @@
+# Nebula backend – Local setup with Docker
+
+This guide explains how to run the **Nebula backend** locally using Docker.  
+No development knowledge is required.
+
+---
+
+## Prerequisites
+
+- **Git** (to clone the repo)
+- **Docker Desktop** installed and running
+- SSH access to GitHub (or use the HTTPS clone URL below)
+
+```bash
+# SSH
+git clone git@github.com:MelissaFrncJrg/myDigitalProject.git
+
+# or HTTPS
+git clone https://github.com/MelissaFrncJrg/myDigitalProject.git
+```
+
+- Configure environment variables. In your terminal run:
+
+```bash
+cp .env.example .env
+```
+
+Open .env in a text editor and update any values by asking Melissa for the correct settings.
+
+## Start the Backend
+
+Open a terminal
+
+- Windows: open PowerShell
+- macOS/Linux: open your usual terminal
+
+Navigate to the backend folder:
+
+```bash
+cd myDigitalProject/BACKEND
+```
+
+### Launch with Docker
+
+Simply run
+
+```bash
+docker compose up --build
+```
+
+This will:
+
+- Create a PostgreSQL database
+- Apply all database migrations
+- Start the Node.js backend
+
+## Once it's ready, you should see something like:
+
+```bash
+Server running on 4455
+```
+
+### How to check tt works
+
+Visit `http://localhost:4455` in your browser.
+You’ll see “Cannot GET /” – that’s normal.
+
+#### Browse the database (Optional)
+
+Open Prisma Studio:
+
+- In browser: http://localhost:5555
+- Or run :
+
+```bash
+npx prisma studio
+```
+
+You'll be able to see tables and test data if they exist.
+
+##### Stop and cleanup
+
+In your terminal, press `Ctrl + C` to stop the server.
+To fully shut down and remove containers:
+
+```bash
+docker compose down -v
+```
+
+###### Common Issues
+
+- Port 4455 in use:
+
+  - Stop any local npm start run (Ctrl +C), then retry Docker.
+
+- Port 5432 conflict:
+
+  - If another PostgreSQL is running, Docker will map to 5433 automatically. Just ignore any “port already in use” warning.
+
+- Docker not starting:
+  - Ensure Docker Desktop is running and healthy—look for the whale icon in your system tray.
+
+If you're stuck, ping Melissa on Discord or Teams ! This guide is here to help you launch everything without digging into the code.
+
 # Auth API
 
 This documentation covers the **Auth API** endpoints responsible for user registration and login. All routes are prefixed with:
@@ -314,7 +418,7 @@ Update the current user's profile details.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -364,7 +468,7 @@ Update the current user's role from PLAYER to CREATOR.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -422,7 +526,7 @@ Delete a user account with proper authentication confirmation.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -493,7 +597,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -530,7 +634,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -556,7 +660,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -580,7 +684,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -640,7 +744,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -672,7 +776,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -705,7 +809,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 201 Created (if created) or 200 OK (if updated)
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -737,7 +841,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -763,7 +867,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 201 Created
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -793,7 +897,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -819,7 +923,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 201 Created
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -851,7 +955,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -883,7 +987,7 @@ Routes that include `ensureRole("CREATOR")` require the user to have the `CREATO
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -932,7 +1036,7 @@ Create a follow relationship between the current user and a creator.
 #### Success Response
 
 - **Code**: 201 Created
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1015,7 +1119,7 @@ Enable or disable notifications for a followed creator.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1054,7 +1158,7 @@ Get a list of all creators that the current user is following.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1091,7 +1195,7 @@ Get a list of all users following a specific creator.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1135,7 +1239,7 @@ Check if the current user is following a specific creator.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content** (if following):
+  - **Content** (if following):
 
 ```json
 {
@@ -1170,6 +1274,8 @@ Check if the current user is following a specific creator.
 - **Code**: 500 Internal Server Error
   - **Content**: `{ "success": false, "message": "Internal server error" }`
 
+---
+
 # News API
 
 This documentation covers the **News API** endpoints that manage project news and user interactions with news items. Most routes require authentication, except for the public `getProjectNews` route.
@@ -1202,7 +1308,7 @@ Retrieves all news associated with a specific project.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1271,7 +1377,7 @@ Creates a news item to update the community about a project. Protected by `ensur
 #### Success Response
 
 - **Code**: 201 Created
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1325,7 +1431,7 @@ Updates an existing news item. Protected by `ensureAuthenticated`.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1370,7 +1476,7 @@ Deletes an existing news item. Protected by `ensureAuthenticated`.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1413,7 +1519,7 @@ Adds a comment to a news item. Protected by `ensureAuthenticated`.
 #### Success Response
 
 - **Code**: 201 Created
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1465,7 +1571,7 @@ Updates an existing news item. Protected by `ensureAuthenticated`.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1510,7 +1616,7 @@ Deletes a comment from a news item. Protected by `ensureAuthenticated`.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1545,7 +1651,7 @@ Adds a like to a news item. Protected by `ensureAuthenticated`.
 #### Success Response
 
 - **Code**: 201 Created
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1584,7 +1690,7 @@ Removes a like from a news item. Protected by `ensureAuthenticated`.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1611,7 +1717,7 @@ Adds a like to a comment. Protected by `ensureAuthenticated`.
 #### Success Response
 
 - **Code**: 201 Created
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1688,7 +1794,7 @@ Updates the content of a comment on a news item. Protected by `ensureAuthenticat
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1718,7 +1824,6 @@ Updates the content of a comment on a news item. Protected by `ensureAuthenticat
   - **Content**: `{ "message": "Comment not found" }`
 
 - **Code**: 500 Internal Server Error
-
   - **Content**: `{ "message": "Internal server error" }`
 
 ---
@@ -1735,7 +1840,7 @@ Returns the number of likes on a given news item.
 #### Success Response
 
 - **Code**: 200 OK
-- **Content**:
+  - **Content**:
 
 ```json
 {
@@ -1781,7 +1886,6 @@ Returns the number of likes on a specific comment.
 #### Error Responses
 
 - **Code**: 500 Internal Server Error
-
   - **Content**:
 
 ```json
@@ -1790,3 +1894,236 @@ Returns the number of likes on a specific comment.
   "error": "..."
 }
 ```
+
+---
+
+# Team API
+
+This documentation covers the **Team API** endpoints that manage teams associated with projects. Some routes require authentication and specific roles.
+
+## Base URL
+
+```
+/teams
+```
+
+## Authentication
+
+All endpoints marked **Auth Required** require a valid JWT token in your request headers:
+
+```
+Authorization: Bearer YOUR_TOKEN_HERE
+```
+
+## Endpoints
+
+### Create Team
+
+Creates a new team for a specified project.
+
+- **URL**: `/teams/:projectId`
+- **Method**: `POST`
+- **Auth Required**: Yes (role: CREATOR)
+- **URL Params**:
+  - `projectId=[integer]` Project ID to attach the team to
+- **Body Params**:
+  - `name` (string, required) — Team name
+  - `members` (array of integers, optional) — User IDs to include in the team
+
+#### Success Response
+
+- **Code**: 201 Created
+  - **Content**:
+
+```json
+{
+  "id": 10,
+  "name": "Design Team",
+  "members": [2, 3],
+  "projectId": 5,
+  "createdAt": "2025-05-16T09:10:00.000Z",
+  "updatedAt": "2025-05-16T09:10:00.000Z"
+}
+```
+
+#### Error Responses
+
+- **Code**: 400 Bad Request
+
+  - **Content**: { "message": "Invalid team data" }
+
+- **Code**: 401 Unauthorized
+
+  - **Content**: { "message": "Authentication required" }
+
+- **Code**: 403 Forbidden
+
+  - **Content**: { "message": "Insufficient permissions" }
+
+- **Code**: 500 Internal Server Error
+  - **Content**: { "message": "Internal server error" }
+
+---
+
+### Get My Teams
+
+Retrieves all teams created by the authenticated user.
+
+- **URL**: `/teams/mine`
+- **Method**: `GET`
+- **Auth Required**: Yes (role: CREATOR)
+
+#### Success Response
+
+- **Code**: 200 OK
+  - **Content**:
+
+```json
+[
+  {
+    "id": 10,
+    "name": "Design Team",
+    "members": [2, 3],
+    "projectId": 5,
+    "createdAt": "2025-05-16T09:10:00.000Z",
+    "updatedAt": "2025-05-16T09:10:00.000Z"
+  }
+]
+```
+
+#### Error Responses
+
+- **Code**:401 Unauthorized
+
+  - **Content**: { "message": "Authentication required" }
+
+- **Code**: 403 Forbidden
+
+  - **Content**: { "message": "Insufficient permissions" }
+
+- **Code**: 500 Internal Server Error
+  - **Content**: { "message": "Internal server error" }
+
+---
+
+### Get All Teams
+
+Retrieves all teams across every project (public).
+
+- **URL**: `/teams/allmine`
+- **Method**: `GET`
+- **Auth Required**: No
+
+#### Success Response
+
+- **Code**: 200 OK
+  - **Content**:
+
+```json
+[
+  {
+    "id": 10,
+    "name": "Design Team",
+    "members": [2, 3],
+    "projectId": 5,
+    "createdAt": "2025-05-16T09:10:00.000Z",
+    "updatedAt": "2025-05-16T09:10:00.000Z"
+  },
+  {
+    "id": 11,
+    "name": "Backend Team",
+    "members": [4, 5],
+    "projectId": 6,
+    "createdAt": "2025-05-15T14:22:11.000Z",
+    "updatedAt": "2025-05-15T14:22:11.000Z"
+  }
+]
+```
+
+#### Error Responses
+
+- **Code**: 500 Internal Server Error
+  - **Content**: { "message": "Internal server error" }
+
+---
+
+### Update Team
+
+Updates an existing team for the authenticated creator’s project.
+
+- **URL**: `/teams/mine/:projectId`
+- **Method**: `PATCH`
+- **Auth Required**: Yes (role: CREATOR)
+- **URL params** : `projectId=[integer]` ID of the project whose team you want to update
+- **Body params**:
+  - `name` (string, optional) — New team name
+  - `members` (array of integers, optional) — Updated list of user IDs
+
+#### Success Response
+
+- **Code**: 200 OK
+  - **Content**:
+
+```json
+{
+  "id": 10,
+  "name": "New Team Name",
+  "members": [2, 4],
+  "projectId": 5,
+  "createdAt": "2025-05-16T09:10:00.000Z",
+  "updatedAt": "2025-05-17T11:30:00.000Z"
+}
+```
+
+#### Error Responses
+
+- **Code**: 400 Bad Request
+
+  - **Content**: { "message": "Invalid update data" }
+
+- **Code**: 401 Unauthorized
+
+  - **Content**: { "message": "Authentication required" }
+
+- **Code**: 403 Forbidden
+
+  - **Content**: { "message": "Insufficient permissions" }
+
+- **Code**: 404 Not Found
+
+  - **Content**: { "message": "Team not found" }
+
+- **Code**: 500 Internal Server Error
+  - **Content**: { "message": "Internal server error" }
+
+---
+
+### Delete Team
+
+Deletes a team from the authenticated creator’s project.
+
+- **URL**: `/teams/mine/:projectId`
+- **Method**: `DELETE`
+- **Auth Required**: Yes (role: CREATOR)
+- **URL params** : `projectId=[integer]` ID of the project whose team you want to delete
+
+#### Success Response
+
+- **Code**: 204 No Content
+
+#### Error Responses
+
+- **Code**: 401 Unauthorized
+
+  - **Content**: { "message": "Authentication required" }
+
+- **Code**: 403 Forbidden
+
+  - **Content**: { "message": "Insufficient permissions" }
+
+- **Code**: 404 Not Found
+
+  - **Content**: { "message": "Team not found" }
+
+- **Code**: 500 Internal Server Error
+  - **Content**: { "message": "Internal server error" }
