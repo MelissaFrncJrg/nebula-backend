@@ -76,7 +76,7 @@ exports.updateProject = async (req, res) => {
 };
 
 exports.getProjectById = async (req, res) => {
-  const projectId = parseInt(req.params.id, 10)
+  const projectId = parseInt(req.params.id, 10);
 
   try {
     const project = await prisma.project.findUnique({
@@ -86,10 +86,10 @@ exports.getProjectById = async (req, res) => {
           include: {
             user: {
               include: {
-                profile: true
-              }
-            }
-          }
+                profile: true,
+              },
+            },
+          },
         },
         news: true,
         Review_project: {
@@ -97,40 +97,46 @@ exports.getProjectById = async (req, res) => {
             author: {
               select: {
                 id: true,
-                profile: true
-              }
+                profile: true,
+              },
             },
-            likes: true
-          }
-        }
-      }
-    })
+            likes: true,
+          },
+        },
+      },
+    });
 
     if (!project) {
-      return res.status(404).json({ message: "Project not found" })
+      return res.status(404).json({ message: "Project not found" });
     }
 
-    let isFollowedByCurrentUser = false
+    let isFollowedByCurrentUser = false;
+    let notificationsEnabled = false;
 
     if (req.user) {
       const follow = await prisma.follow_project.findUnique({
         where: {
           ID_user_ID_project: {
             ID_user: req.user.id,
-            ID_project: projectId
-          }
-        }
-      })
+            ID_project: projectId,
+          },
+        },
+      });
 
-      isFollowedByCurrentUser = !!follow
+      if (follow) {
+        isFollowedByCurrentUser = true;
+        notificationsEnabled = follow.notificationsEnabled;
+      }
     }
 
-    res.status(200).json({ project, isFollowedByCurrentUser })
+    res
+      .status(200)
+      .json({ project, isFollowedByCurrentUser, notificationsEnabled });
   } catch (err) {
-    console.error(`Error retrieving project ${projectId}:`, err)
-    res.status(500).json({ message: "Server error" })
+    console.error(`Error retrieving project ${projectId}:`, err);
+    res.status(500).json({ message: "Server error" });
   }
-}
+};
 
 exports.getMyProjects = async (req, res) => {
   const userId = req.user.id;
@@ -163,27 +169,30 @@ exports.getAllCreatorProjects = async (req, res) => {
               select: {
                 id: true,
                 username: true,
-                avatarUrl: true
-              }
-            }
-          }
-        }
-      }
-    })
+                avatarUrl: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
     // Map les résultats en projet enrichi d'infos créateur
-    const projects = creatorLinks.map(link => ({
+    const projects = creatorLinks.map((link) => ({
       ...link.project,
       creatorId: link.user.id,
-      creatorProfile: link.user.profile
-    }))
+      creatorProfile: link.user.profile,
+    }));
 
-    res.status(200).json({ projects })
+    res.status(200).json({ projects });
   } catch (err) {
-    console.error("Erreur lors de la récupération des projets des créateurs :", err)
-    res.status(500).json({ message: "Erreur serveur" })
+    console.error(
+      "Erreur lors de la récupération des projets des créateurs :",
+      err
+    );
+    res.status(500).json({ message: "Erreur serveur" });
   }
-}
+};
 
 exports.getProjectsByProfileId = async (req, res) => {
   const profileId = parseInt(req.params.profileId, 10);
@@ -191,6 +200,7 @@ exports.getProjectsByProfileId = async (req, res) => {
   try {
     const user = await prisma.user.findFirst({
       where: { profileId },
+      include: { profile: true },
     });
 
     if (!user || user.role !== Role.CREATOR) {
@@ -204,7 +214,16 @@ exports.getProjectsByProfileId = async (req, res) => {
 
     const projects = creatorProjects.map((link) => link.project);
 
-    res.status(200).json({ projects });
+    res.status(200).json({
+      projects,
+      profile: {
+        id: user.profile.id,
+        username: user.profile.username,
+        avatarUrl: user.profile.avatarUrl,
+        bio: user.profile.bio,
+        socialLinks: user.profile.socialLinks,
+      },
+    });
   } catch (err) {
     console.error("Error when trying to get creator's projects:", err);
     res.status(500).json({ message: "Erreur serveur" });
