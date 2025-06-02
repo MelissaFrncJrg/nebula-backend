@@ -8,18 +8,18 @@ const {
   getCreatorFollowers,
   checkFollowStatus,
 } = require("../controllers/followController");
-const { ensureAuthenticated } = require("../middlewares/authMiddleware");
+const { authenticateToken } = require("../middlewares/jwtMiddleware");
 
-router.post("/:creatorId", ensureAuthenticated, followCreator);
+router.post("/:creatorId", authenticateToken, followCreator);
 
-router.delete("/:creatorId", ensureAuthenticated, unfollowCreator);
+router.delete("/:creatorId", authenticateToken, unfollowCreator);
 
-router.patch("/:creatorId", ensureAuthenticated, updateNotificationPreferences);
+router.patch("/:creatorId", authenticateToken, updateNotificationPreferences);
 
-router.get("/", ensureAuthenticated, getFollowedCreators);
+router.get("/", authenticateToken, getFollowedCreators);
 
-router.get("/followers/:creatorId", ensureAuthenticated, getCreatorFollowers);
+router.get("/followers/:creatorId", authenticateToken, getCreatorFollowers);
 
-router.get("/status/:creatorId", ensureAuthenticated, checkFollowStatus);
+router.get("/status/:creatorId", authenticateToken, checkFollowStatus);
 
 module.exports = router;

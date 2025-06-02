@@ -1,8 +1,11 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const { authenticateToken } = require("../middlewares/jwtMiddleware");
+const { body } = require("express-validator");
 const rateLimit2fa = require("../middlewares/rateLimit2fa");
 const {
   generateTotpSecret,
@@ -11,50 +14,88 @@ const {
   verifyTotpToken,
   getUserById,
 } = require("../services/twoFactorService");
+const { validateRequest } = require("../middlewares/validateRequest");
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.status(401).json({ error: "Not authenticated" });
-}
-
-router.post("/enable-2fa", ensureAuthenticated, async (req, res) => {
+router.post("/enable-2fa", authenticateToken, async (req, res) => {
   const { totpSecret, qrCodeUrl } = await generateTotpSecret(req.user.email);
   await storeTotpSecret(req.user.id, totpSecret);
   res.json({ qrCodeUrl });
 });
 
-router.post("/confirm-2fa", ensureAuthenticated, async (req, res) => {
-  const { token } = req.body;
+router.post(
+  "/confirm-2fa",
+  authenticateToken,
+  [
+    body("token")
+      .trim()
+      .notEmpty()
+      .withMessage("Token is required")
+      .isLength({ min: 6, max: 6 })
+      .withMessage("Token must be 6 digits")
+      .isNumeric()
+      .withMessage("Token must be numeric"),
+  ],
+  validateRequest,
+  async (req, res) => {
+    const { token } = req.body;
 
-  const user = await getUserById(req.user.id);
+    const user = await getUserById(req.user.id);
 
-  if (!verifyTotpToken(user.totpSecret, token)) {
-    return res.status(400).json({ error: "Invalid token" });
-  }
+    if (!verifyTotpToken(user.totpSecret, token)) {
+      return res.status(400).json({ error: "Invalid token" });
+    }
 
-  await enableTwoFactor(user.id);
+    await enableTwoFactor(user.id);
 
-  res.json({ success: true });
-});
-
-router.post("/verify-2fa", rateLimit2fa, async (req, res) => {
-  const { token } = req.body;
-  const userId = req.session.tempUserId;
-  if (!userId) return res.status(401).json({ error: "No temporary session" });
-
-  const user = await getUserById(userId);
-
-  if (!user) return res.status(404).json({ error: "User not found" });
-
-  if (!verifyTotpToken(user.totpSecret, token)) {
-    return res.status(400).json({ error: "Invalid token" });
-  }
-
-  req.login(user, (err) => {
-    if (err) return res.status(500).json({ error: "Error login after 2FA" });
-    req.session.tempUserId = null;
     res.json({ success: true });
-  });
-});
+  }
+);
+
+router.post(
+  "/verify-2fa",
+  rateLimit2fa,
+  [
+    body("token")
+      .trim()
+      .notEmpty()
+      .withMessage("Token is required")
+      .isLength({ min: 6, max: 6 })
+      .withMessage("Token must be 6 digits")
+      .isNumeric()
+      .withMessage("Token must be numeric"),
+  ],
+  validateRequest,
+  async (req, res) => {
+    const { token } = req.body;
+    const userId = req.session.tempUserId;
+    if (!userId) return res.status(401).json({ error: "No temporary session" });
+
+    const user = await getUserById(userId);
+
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    if (!verifyTotpToken(user.totpSecret, token)) {
+      return res.status(400).json({ error: "Invalid token" });
+    }
+
+    const jwtToken = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || "nebula_secret_key",
+      { expiresIn: "1d" }
+    );
+
+    req.session.tempUserId = null;
+
+    res.json({
+      success: true,
+      token: jwtToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  }
+);
 
 module.exports = router;

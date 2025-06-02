@@ -3,6 +3,33 @@ const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
 const speakeasy = require("speakeasy");
 
+exports.getProfile = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { profile: true },
+    });
+
+    if (!user || !user.profile) {
+      return res.status(404).json({ message: "User profile not found" });
+    }
+
+    res.status(200).json({
+      profile: {
+        username: user.profile.username,
+        avatarUrl: user.profile.avatarUrl,
+        bio: user.profile.bio,
+        socialLinks: user.profile.socialLinks,
+      },
+    });
+  } catch (err) {
+    console.error("An error occured when trying to get the profile :", err);
+    res.status(500).json({ message: "Server error." });
+  }
+};
+
 exports.updateProfile = async (req, res) => {
   const userId = req.user.id;
   const { username, avatarUrl, bio, socialLinks } = req.body;

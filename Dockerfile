@@ -22,3 +22,5 @@ EXPOSE 4455 5555
 
 # Default command
 CMD ["npm", "start"]
+
+# This is a test comment

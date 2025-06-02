@@ -1,18 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const {
+  getProfile,
   updateProfile,
   switchToCreator,
   deleteAccount,
   updatePassword,
 } = require("../controllers/profileController");
-const { ensureAuthenticated } = require("../middlewares/authMiddleware");
+const { authenticateToken } = require("../middlewares/jwtMiddleware");
 
-router.patch("/", ensureAuthenticated, updateProfile);
+router.get("/", authenticateToken, getProfile);
 
-router.delete("/delete-account", ensureAuthenticated, deleteAccount);
+router.patch("/", authenticateToken, updateProfile);
 
-router.patch("/switch-to-creator", ensureAuthenticated, switchToCreator);
+router.delete("/delete-account", authenticateToken, deleteAccount);
+
+router.patch("/switch-to-creator", authenticateToken, switchToCreator);
 
 router.patch("/update-password", ensureAuthenticated, updatePassword);
 
