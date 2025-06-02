@@ -17,6 +17,6 @@ router.delete("/delete-account", authenticateToken, deleteAccount);
 
 router.patch("/switch-to-creator", authenticateToken, switchToCreator);
 
-router.patch("/update-password", ensureAuthenticated, updatePassword);
+router.patch("/update-password", authenticateToken, updatePassword);
 
 module.exports = router;
