@@ -21,10 +21,6 @@ exports.createUpdateReview = async (req, res) => {
       .json({ message: "Creators cannot review their own projects!" });
   }
 
-  if (!rating || rating < 1 || rating > 5) {
-    return res.status(400).json({ message: "Rating must be between 1 and 5" });
-  }
-
   try {
     const existingReview = await prisma.project_review.findFirst({
       where: {
