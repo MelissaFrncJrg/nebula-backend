@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { authenticateToken } = require("../middlewares/jwtMiddleware");
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { createContentLimiter } = require("../middlewares/rateLimiters");
 const {
   createNews,
