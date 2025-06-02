@@ -11,7 +11,6 @@ const { resetPasswordLimiter } = require("../middlewares/resetPasswordLimit");
 const { body } = require("express-validator");
 const { loginLimiter } = require("../middlewares/rateLimiters");
 const { PrismaClient } = require("@prisma/client");
-const { registerUser } = require("../services/authService");
 const { validateRequest } = require("../middlewares/validateRequest");
 
 const prisma = new PrismaClient();
